@@ -35,6 +35,16 @@
                             <span class="round__meta">@entry.Farm.City — @entry.Visits.Count visite(s) prévue(s)</span>
                             <span class="round__open">Ouvrir la fiche de @entry.Farm.Name</span>
                         </a>
+                        <ul class="round__visits">
+                            @foreach (var visit in entry.Visits)
+                            {
+                                <li @key="visit.Id">
+                                    <a class="round__visit-link" href="@($"regie/{visit.Id}")" data-visit-id="@visit.Id">
+                                        Ouvrir la grille de régie de @entry.Farm.Name
+                                    </a>
+                                </li>
+                            }
+                        </ul>
                     </li>
                 }
             </ul>

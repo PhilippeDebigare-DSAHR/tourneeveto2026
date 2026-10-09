@@ -1,0 +1,88 @@
+@page "/regie/{VisitId:guid}"
+@namespace TourneeVeto.Ui.Pages
+
+<PageTitle>TournéeVéto — Grille de régie</PageTitle>
+
+<section class="grid" aria-labelledby="@TitleId" aria-busy="@(_loading ? "true" : "false")">
+    <h1 id="@TitleId" class="grid__title">Grille de régie</h1>
+    <p class="grid__notice">Démonstration — données fictives. Cochez les actions réalisées, ajoutez des notes, puis appuyez sur « Enregistrer ».</p>
+
+    @if (_loading)
+    {
+        <p role="status">Chargement de la grille de régie…</p>
+    }
+    else if (_error is not null)
+    {
+        <p class="grid__error" role="alert" data-testid="regie-error">@_error</p>
+        <button type="button" class="grid__action" @onclick="LoadAsync">Réessayer le chargement</button>
+        <a class="grid__back" href="tournee">Retour à la tournée du jour</a>
+    }
+    else if (_notFound)
+    {
+        <p class="grid__error" role="alert" data-testid="regie-not-found">
+            Aucune visite enregistrée ne correspond à cette grille. Aucune donnée n'est affichée.
+        </p>
+        <a class="grid__back" href="tournee">Retour à la tournée du jour</a>
+    }
+    else if (_farmName is not null)
+    {
+        <p class="grid__farm">Élevage : <strong>@_farmName</strong></p>
+        <p class="grid__farm"><time datetime="@_visitDate.ToString("yyyy-MM-dd")">@FormatDate(_visitDate)</time></p>
+        @if (_ignoredActionCount > 0)
+        {
+            <p class="grid__warning" role="alert" data-testid="regie-ignored">
+                @_ignoredActionCount action(s) rattachée(s) à une vache absente de cet élevage ne sont pas affichées.
+            </p>
+        }
+        <div class="grid__categories">
+            @foreach (var category in _categories)
+            {
+                <section @key="category.Type" class="grid__category" aria-labelledby="@($"{_id}-{category.Type}")"
+                         data-testid="regie-category" data-category="@category.Type">
+                    <h2 id="@($"{_id}-{category.Type}")" class="grid__heading">@category.Label (@category.Rows.Count)</h2>
+                    @if (category.Rows.Count == 0)
+                    {
+                        <p class="grid__empty">Aucune vache à traiter dans cette catégorie.</p>
+                    }
+                    else
+                    {
+                        <ul class="grid__list">
+                            @foreach (var row in category.Rows)
+                            {
+                                <li @key="row.ActionId" class="grid__item" data-cow-id="@row.CowId" data-testid="regie-action">
+                                    <span class="grid__cow">@row.CowName</span>
+                                    <span class="grid__meta">Identifiant : @row.CowId</span>
+                                    <label class="grid__check">
+                                        <input type="checkbox" checked="@row.IsCompleted" disabled="@_saving"
+                                               data-testid="regie-completed"
+                                               @onchange="e => SetCompleted(row, e.Value is true)" />
+                                        <span>Action réalisée pour @row.CowName</span>
+                                    </label>
+                                    <span class="grid__meta">@(row.IsCompleted ? "Statut : action réalisée" : "Statut : action à faire")</span>
+                                    <label class="grid__label">
+                                        <span>Note pour @row.CowName</span>
+                                        <textarea class="grid__notes" rows="2" value="@row.Notes" disabled="@_saving"
+                                                  data-testid="regie-notes"
+                                                  @onchange="e => SetNotes(row, e.Value as string)"></textarea>
+                                    </label>
+                                </li>
+                            }
+                        </ul>
+                    }
+                </section>
+            }
+        </div>
+        @if (_saveError is not null)
+        {
+            <p class="grid__error" role="alert" data-testid="regie-save-error">@_saveError</p>
+        }
+        @if (_saveSuccess)
+        {
+            <p class="grid__success" role="status" data-testid="regie-save-success">Modifications enregistrées.</p>
+        }
+        <button type="button" class="grid__action" disabled="@_saving" data-testid="regie-save" @onclick="SaveAsync">
+            @(_saving ? "Enregistrement en cours…" : "Enregistrer")
+        </button>
+        <a class="grid__back" href="tournee">Retour à la tournée du jour</a>
+    }
+</section>
