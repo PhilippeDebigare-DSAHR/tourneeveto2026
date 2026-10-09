@@ -1,0 +1,60 @@
+# 1. Secrets, certificats et configuration locale
+.env
+.env.*
+*.pfx
+*.snk
+*.key
+*.pem
+*.p12
+secrets.json
+appsettings.*.local.json
+*.user
+*.pubxml.user
+launchSettings.local.json
+.vs/
+.mcp.json
+**/.mcp.json
+
+# 2. Données réelles d'élevages et de producteurs (exports de test)
+data/reel/
+exports/
+**/*-reel.csv
+**/*-reel.json
+**/*.bak
+
+# 3. Sorties de build, de publication et de test (régénérables)
+**/bin/
+**/obj/
+publish/
+**/publish/
+**/TestResults/
+**/playwright-report/
+**/test-results/
+**/coverage/
+**/*.trx
+**/*.coverage
+**/*.binlog
+
+# 4. Artefacts Blazor / PWA générés (service worker publié, assets compressés)
+**/wwwroot/_framework/
+**/service-worker-assets.js
+**/*.br
+**/*.gz
+**/*.staticwebassets.endpoints.json
+
+# 5. Fichiers volumineux ou minifiés sans valeur pour l'IA
+**/wwwroot/lib/**
+node_modules/
+*.min.js
+*.min.css
+*.map
+*.dll
+*.pdb
+*.wasm
+*.dat
+design/stitch/**/*.html
+
+# 6. Journaux et dépôt Git
+logs/
+*.log
+.git/

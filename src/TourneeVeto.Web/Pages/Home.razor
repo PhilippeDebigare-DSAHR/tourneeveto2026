@@ -1,0 +1,13 @@
+@page "/"
+@using TourneeVeto.Domain
+@using TourneeVeto.Ui.Components
+
+<PageTitle>TournéeVéto — Accueil</PageTitle>
+
+<h1>TournéeVéto</h1>
+<p>Préparer les tournées, réaliser les visites et produire les rapports en étable.</p>
+<DemoOverview Data="_data" />
+
+@code {
+    private readonly DemoDataSet _data = DemoData.Generate(DateOnly.FromDateTime(DateTime.Today), seed: 42);
+}

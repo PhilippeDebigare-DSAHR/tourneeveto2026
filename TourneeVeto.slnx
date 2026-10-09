@@ -1,0 +1,10 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/TourneeVeto.Domain/TourneeVeto.Domain.csproj" />
+    <Project Path="src/TourneeVeto.Ui/TourneeVeto.Ui.csproj" />
+    <Project Path="src/TourneeVeto.Web/TourneeVeto.Web.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/TourneeVeto.Tests/TourneeVeto.Tests.csproj" />
+  </Folder>
+</Solution>

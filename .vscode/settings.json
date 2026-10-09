@@ -1,0 +1,15 @@
+{
+  "files.exclude": {
+    "**/bin": true,
+    "**/obj": true,
+    "**/publish": true,
+    "**/TestResults": true
+  },
+  "search.exclude": {
+    "**/bin": true,
+    "**/obj": true,
+    "**/publish": true,
+    "**/TestResults": true,
+    "**/wwwroot/lib": true
+  }
+}
