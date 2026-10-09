@@ -1,0 +1,11 @@
+@namespace __NAMESPACE__
+
+<section class="component" aria-labelledby="@TitleId">
+    <h2 id="@TitleId" class="component__title">@Title</h2>
+    <div class="component__content">@ChildContent</div>
+    <button type="button" class="component__action"
+            disabled="@(Disabled || !OnAction.HasDelegate)"
+            @onclick="InvokeActionAsync">
+        @ActionLabel
+    </button>
+</section>

@@ -16,13 +16,51 @@ Le choix de stockage doit répondre à ces besoins sans compromettre le délai d
 
 Utiliser **IndexedDB dans le navigateur** pour les données métier du POC, derrière une abstraction de persistance indépendante de l’interface.
 
-L’accès à IndexedDB se fera côté navigateur, via JS interop ou une bibliothèque .NET appropriée. Le choix de la bibliothèque pourra être fait pendant l’implémentation, en privilégiant une dépendance légère et maintenue.
+L’accès à IndexedDB se fait côté navigateur via JS interop et un module ES isolé, sans bibliothèque de stockage supplémentaire.
 
 - Les visites, les saisies de grille et les bilans de biosécurité sont persistés dans IndexedDB.
 - Les données de démonstration peuvent être fournies avec l’application, puis copiées dans le stockage local au premier lancement.
-- La logique métier ne dépend pas directement d’IndexedDB : elle utilise une abstraction de dépôt ou de persistance.
+- La logique métier ne dépend pas d’IndexedDB et reste sans entrée/sortie : les services applicatifs utilisent une abstraction de dépôt ou de persistance.
 - `localStorage` peut être réservé à de petites préférences non critiques, si nécessaire. Il ne sera pas utilisé comme stockage principal des visites.
 - EF Core avec SQLite en WebAssembly n’est pas retenu pour le POC.
+
+## Implémentation du socle de stockage
+
+- Le dépôt `IVisitRepository` et son adaptateur `IndexedDbVisitRepository`
+  résident dans `src/TourneeVeto.Ui/Data/`. Le domaine reste pur, sans
+  dépendance de persistance ou de navigateur. Le service est enregistré scoped
+  dans l'hôte Web ; les écrans peuvent l'injecter sans appeler le JS directement.
+- L'adaptateur importe à la demande le module ES
+  `./_content/TourneeVeto.Ui/js/visitStore.js` et le libère de façon asynchrone.
+  Aucune bibliothèque IndexedDB supplémentaire n'est nécessaire.
+- Base `tourneeveto`, schéma v2 : stores `visits`, `herds` (snapshot élevages
+  et vaches) et `photos`. La migration v1 vers v2 ajoute le store photos
+  sans supprimer les visites ou le troupeau existants.
+- Les dates `DateOnly` sont sérialisées en ISO `yyyy-MM-dd`, les propriétés
+  en camelCase, les photos par interop binaire `byte[]`/`Uint8Array`.
+  Le modèle de visite actuel associe au maximum une photo par visite.
+- Visite et photo sont sauvegardées atomiquement ; le succès n'est retourné
+  qu'après la fin de transaction. Les suppressions nettoient aussi les photos.
+  Quota, stockage refusé, migration bloquée et version future sont des erreurs
+  explicites en français, jamais des retours de réussite ou un repli en mémoire.
+- S02 branche l'accueil au dépôt via `DemoStartupService` et un `TimeProvider`.
+  `InitializeDemoAsync` enregistre troupeau, visites et actions fictives dans une seule
+  transaction sur `herds` et `visits`. Le marqueur `demo-initialization` est un document
+  du store `herds` existant, sans changement de version de schéma.
+  Le marqueur n'est écrit qu'avec les données ; toute erreur annule la transaction.
+- Aucun réensemencement des données existantes : un ancien snapshot sans marqueur est
+  adopté sans modification. Un marqueur avec un troupeau absent ou illisible est une erreur,
+  jamais une autorisation de réinitialiser. Les ouvertures concurrentes sont sérialisées
+  par les transactions IndexedDB. Les suppressions et modifications sont conservées.
+- `Visit.Actions` est une collection optionnelle dans les anciens documents, lue comme
+  vide en C#. Les nouvelles visites sérialisent explicitement les actions ; aucun nouveau
+  store n'est nécessaire. Les futures réponses de biosécurité seront traitées séparément.
+- La navigation privée peut accepter les écritures sans garantir leur
+  conservation à la fermeture. Le stockage local n'est pas une sauvegarde.
+  Le cache PWA des assets reste nécessaire pour redémarrer hors ligne.
+
+Le workflow et la matrice de validation sont documentés dans le
+[skill indexeddb-interop](../../.github/skills/indexeddb-interop/SKILL.md).
 
 ## Diagrammes C4
 
@@ -63,7 +101,7 @@ C4Container
     Rel(vet, ui, "Utilise")
     Rel(hosting, ui, "Distribue les fichiers statiques")
     Rel(ui, domain, "Appelle")
-    Rel(domain, persistence, "Demande la lecture ou la sauvegarde des données")
+    Rel(ui, persistence, "Demande la lecture ou la sauvegarde des données")
     Rel(persistence, jsinterop, "Accède à IndexedDB via")
     Rel(jsinterop, indexeddb, "Lit et écrit")
 ```

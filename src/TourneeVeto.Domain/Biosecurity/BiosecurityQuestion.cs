@@ -7,7 +7,16 @@ public sealed record BiosecurityQuestion(
     Guid Id,
     string Section,
     int Poids,
-    bool IsCritique);
+    bool IsCritique)
+{
+    public string Prompt { get; init; } = string.Empty;
+
+    public IReadOnlyList<BiosecurityOption> Options { get; init; } = [];
+}
+
+public sealed record BiosecurityOption(Guid Id, Answer Value, string Label);
+
+public sealed record BiosecurityResponse(Guid QuestionId, Guid OptionId);
 
 public enum Answer
 {

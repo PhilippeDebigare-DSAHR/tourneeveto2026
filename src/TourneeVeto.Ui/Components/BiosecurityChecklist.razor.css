@@ -1,0 +1,116 @@
+.biosecurity-checklist {
+    display: grid;
+    gap: var(--space-md);
+    color: var(--color-text);
+    font-family: var(--font-family-body);
+    font-size: var(--font-size-body-lg);
+    line-height: var(--line-height-body-lg);
+}
+
+.biosecurity-checklist h2 {
+    margin: 0;
+    font-size: var(--font-size-headline-lg);
+    line-height: var(--line-height-headline-lg);
+}
+
+.biosecurity-checklist__disclaimer {
+    margin: 0;
+    color: var(--color-text-muted);
+}
+
+.biosecurity-checklist__items {
+    display: grid;
+    gap: var(--space-md);
+}
+
+.biosecurity-checklist__item {
+    min-width: 0;
+    margin: 0;
+    padding: var(--space-md);
+    border: var(--border-width) solid var(--color-border);
+    border-radius: var(--radius-card);
+    background: var(--color-surface);
+}
+
+.biosecurity-checklist__item legend {
+    width: 100%;
+    padding: 0 var(--space-xs);
+    font-weight: var(--font-weight-semibold);
+}
+
+.biosecurity-checklist__section,
+.biosecurity-checklist__prompt {
+    display: block;
+}
+
+.biosecurity-checklist__section {
+    margin-bottom: var(--space-xs);
+    color: var(--color-text-muted);
+    font-size: var(--font-size-label-md);
+    font-weight: var(--font-weight-semibold);
+}
+
+.biosecurity-checklist__status {
+    margin: var(--space-sm) 0 0;
+    font-weight: var(--font-weight-medium);
+}
+
+.biosecurity-checklist__options {
+    display: grid;
+    gap: var(--space-sm);
+    margin-top: var(--space-sm);
+}
+
+.biosecurity-checklist__option {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    min-height: var(--touch-target-field);
+    padding: var(--space-xs) var(--space-sm);
+    border: var(--border-width-control) solid var(--color-border-control);
+    border-radius: var(--radius-control);
+    background: var(--color-surface);
+}
+
+.biosecurity-checklist__option input {
+    flex: 0 0 var(--touch-target);
+    width: var(--touch-target);
+    height: var(--touch-target);
+    margin: 0;
+    accent-color: var(--color-primary);
+}
+
+.biosecurity-checklist__option label {
+    flex: 1;
+    min-height: var(--touch-target);
+    align-content: center;
+    cursor: pointer;
+}
+
+.biosecurity-checklist__option:focus-within {
+    outline: var(--focus-width) solid var(--color-focus);
+    outline-offset: var(--focus-offset);
+}
+
+.biosecurity-checklist__option:has(input:disabled) {
+    cursor: not-allowed;
+}
+
+.biosecurity-checklist__option input:disabled + label {
+    cursor: not-allowed;
+}
+
+.biosecurity-checklist__error {
+    margin: 0;
+    padding: var(--space-md);
+    border: var(--border-width-control) solid var(--color-error);
+    border-radius: var(--radius-card);
+    background: var(--color-error-container);
+    color: var(--color-on-error-container);
+}
+
+@media (max-width: 639px) {
+    .biosecurity-checklist__item {
+        padding: var(--gutter);
+    }
+}

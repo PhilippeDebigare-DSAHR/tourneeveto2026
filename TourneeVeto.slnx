@@ -5,6 +5,7 @@
     <Project Path="src/TourneeVeto.Web/TourneeVeto.Web.csproj" />
   </Folder>
   <Folder Name="/tests/">
+    <Project Path="tests/TourneeVeto.E2E/TourneeVeto.E2E.csproj" />
     <Project Path="tests/TourneeVeto.Tests/TourneeVeto.Tests.csproj" />
   </Folder>
 </Solution>

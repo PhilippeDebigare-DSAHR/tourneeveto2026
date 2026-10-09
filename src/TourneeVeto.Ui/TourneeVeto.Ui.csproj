@@ -13,4 +13,8 @@
     <ProjectReference Include="..\TourneeVeto.Domain\TourneeVeto.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <InternalsVisibleTo Include="TourneeVeto.Tests" />
+  </ItemGroup>
+
 </Project>

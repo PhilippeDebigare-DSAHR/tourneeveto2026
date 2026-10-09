@@ -1,0 +1,57 @@
+@namespace TourneeVeto.Ui.Components
+
+<section class="biosecurity-checklist" aria-labelledby="@TitleId">
+    <h2 id="@TitleId">Bilan de biosécurité</h2>
+    <p class="biosecurity-checklist__disclaimer">
+        Démonstration — données fictives. Évaluation sans visée certificative officielle.
+    </p>
+
+    @if (IsUnavailable)
+    {
+        <p class="biosecurity-checklist__error" role="alert">
+            La liste de contrôle de biosécurité ne peut pas être chargée : elle est indisponible.
+            Aucun bilan vide n’est présenté comme complet.
+        </p>
+    }
+    else
+    {
+        <div class="biosecurity-checklist__items">
+            @foreach (var question in Questions!)
+            {
+                <fieldset class="biosecurity-checklist__item" @key="question.Id">
+                    <legend>
+                        <span class="biosecurity-checklist__section">@question.Section</span>
+                        <span class="biosecurity-checklist__prompt">@question.Prompt</span>
+                    </legend>
+                    <p class="biosecurity-checklist__status">
+                        @if (SelectedOption(question) is { } selectedOption)
+                        {
+                            <span>Réponse : @selectedOption.Label</span>
+                        }
+                        else
+                        {
+                            <span>Non renseigné</span>
+                        }
+                    </p>
+                    <div class="biosecurity-checklist__options">
+                        @foreach (var option in question.Options)
+                        {
+                            var inputId = InputId(question, option);
+                            <div class="biosecurity-checklist__option" @key="option.Id">
+                                <input id="@inputId"
+                                       type="radio"
+                                       name="@GroupName(question)"
+                                       value="@option.Id"
+                                       data-question-id="@question.Id"
+                                       checked="@IsSelected(question, option)"
+                                       disabled="@(!ResponseChanged.HasDelegate)"
+                                       @onchange="() => SelectAsync(question, option)" />
+                                <label for="@inputId">@option.Label</label>
+                            </div>
+                        }
+                    </div>
+                </fieldset>
+            }
+        </div>
+    }
+</section>

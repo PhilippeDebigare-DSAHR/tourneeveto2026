@@ -110,6 +110,42 @@ public sealed class DesignTokensTests
         Assert.DoesNotContain("url(", ReadResource("Design.tokens.css"));
     }
 
+    [Fact]
+    public void Biosecurite_UtiliseLesJetonsEtRespecteLesCiblesTactiles()
+    {
+        var tokens = ReadTokens();
+        var css = ReadResource("Design.BiosecurityChecklist.css");
+        foreach (Match match in Regex.Matches(css, @"var\((--[\w-]+)\)"))
+        {
+            Assert.Contains(match.Groups[1].Value, tokens.Keys);
+        }
+
+        Assert.DoesNotMatch(@"#[0-9a-fA-F]{3,8}\b|rgba?\(", css);
+        Assert.Contains("min-height: var(--touch-target-field);", css);
+        Assert.Contains("width: var(--touch-target);", css);
+        Assert.Contains("height: var(--touch-target);", css);
+        Assert.Contains("min-height: var(--touch-target);", css);
+        Assert.Contains(":focus-within", css);
+    }
+
+    [Fact]
+    public void Demarrage_UtiliseLesJetonsEtDesControlesTactilesAvecFocus()
+    {
+        var tokens = ReadTokens();
+        var css = ReadResource("Design.DemoStartup.css");
+        foreach (Match match in Regex.Matches(css, @"var\((--[\w-]+)\)"))
+        {
+            Assert.Contains(match.Groups[1].Value, tokens.Keys);
+        }
+        Assert.DoesNotMatch(@"#[0-9a-fA-F]{3,8}\b|rgba?\(", css);
+        Assert.Contains("min-width: var(--touch-target);", css);
+        Assert.Contains("min-height: max(var(--touch-target), var(--touch-target-button));", css);
+        Assert.Contains(":focus-visible", css);
+        Assert.Contains("outline-offset: var(--focus-offset);", css);
+        Assert.Contains("background: var(--color-error-container);", css);
+        Assert.Contains("color: var(--color-on-error-container);", css);
+    }
+
     private static double Contrast(string first, string second)
     {
         var firstLuminance = Luminance(first);

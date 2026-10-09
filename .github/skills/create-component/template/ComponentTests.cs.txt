@@ -1,0 +1,99 @@
+using Bunit;
+using __NAMESPACE__;
+
+namespace TourneeVeto.Tests.Ui;
+
+public sealed class __NOM__Tests
+{
+    [Fact]
+    public void Rendu_AssocieLeTitreEtAfficheLeContenu()
+    {
+        using var contexte = new BunitContext();
+        var composant = contexte.Render<__NOM__>(p => p
+            .Add(c => c.Title, "Visite fictive")
+            .Add(c => c.ActionLabel, "Ouvrir la visite")
+            .AddChildContent("<p>Contenu de démonstration</p>"));
+
+        var titre = composant.Find(".component__title");
+        Assert.Equal("Visite fictive", titre.TextContent);
+        Assert.Equal(titre.Id, composant.Find("section").GetAttribute("aria-labelledby"));
+        Assert.Equal("Contenu de démonstration", composant.Find("p").TextContent);
+        Assert.Equal("Ouvrir la visite", composant.Find("button").TextContent.Trim());
+    }
+
+    [Fact]
+    public void Action_NotifieLeParent()
+    {
+        using var contexte = new BunitContext();
+        var appels = 0;
+        var composant = contexte.Render<__NOM__>(p => p
+            .Add(c => c.Title, "Visite fictive")
+            .Add(c => c.OnAction, () => { appels++; }));
+
+        Assert.False(composant.Find("button").HasAttribute("disabled"));
+        composant.Find("button").Click();
+
+        Assert.Equal(1, appels);
+    }
+
+    [Theory]
+    [InlineData(false, false)]
+    [InlineData(true, false)]
+    [InlineData(true, true)]
+    public void Action_EstDesactiveeSansDelegueOuSurDemande(bool desactive, bool avecDelegue)
+    {
+        using var contexte = new BunitContext();
+        var appels = 0;
+        var composant = contexte.Render<__NOM__>(p =>
+        {
+            p.Add(c => c.Title, "Visite fictive").Add(c => c.Disabled, desactive);
+            if (avecDelegue)
+            {
+                p.Add(c => c.OnAction, () => { appels++; });
+            }
+        });
+
+        var bouton = composant.Find("button");
+        Assert.True(bouton.HasAttribute("disabled"));
+        bouton.Click();
+        Assert.Equal(0, appels);
+    }
+
+    [Fact]
+    public void Rendu_EchappeLeTitreEtLeLibelle()
+    {
+        using var contexte = new BunitContext();
+        const string texte = "<script>contenu fictif</script>";
+        var composant = contexte.Render<__NOM__>(p => p
+            .Add(c => c.Title, texte)
+            .Add(c => c.ActionLabel, texte));
+
+        Assert.Empty(composant.FindAll("script"));
+        Assert.Equal(texte, composant.Find(".component__title").TextContent);
+        Assert.Equal(texte, composant.Find("button").TextContent.Trim());
+    }
+
+    [Fact]
+    public void Rendu_UtiliseDesIdentifiantsUniques()
+    {
+        using var contexte = new BunitContext();
+        var premier = contexte.Render<__NOM__>(p => p.Add(c => c.Title, "Première visite"));
+        var second = contexte.Render<__NOM__>(p => p.Add(c => c.Title, "Deuxième visite"));
+
+        Assert.NotEqual(premier.Find(".component__title").Id, second.Find(".component__title").Id);
+    }
+
+    [Theory]
+    [InlineData("", "Continuer")]
+    [InlineData(" ", "Continuer")]
+    [InlineData("Visite fictive", "")]
+    [InlineData("Visite fictive", " ")]
+    public void Parametres_RejetteUnTitreOuUnLibelleVide(string titre, string libelle)
+    {
+        using var contexte = new BunitContext();
+
+        Assert.Throws<ArgumentException>(() => contexte.Render<__NOM__>(p => p
+            .Add(c => c.Title, titre)
+            .Add(c => c.ActionLabel, libelle)));
+    }
+}

@@ -15,4 +15,22 @@ public sealed record Visit(
     DateOnly Date,
     string Cause,
     string Notes,
-    Guid? PhotoId);
+    Guid? PhotoId)
+{
+    private readonly IReadOnlyList<VisitAction>? _actions;
+
+    // Les visites du socle antérieur ne possèdent pas encore d'actions.
+    public IReadOnlyList<VisitAction> Actions
+    {
+        get => _actions ?? [];
+        init => _actions = value;
+    }
+}
+
+public sealed record VisitAction(
+    Guid Id,
+    Guid CowId,
+    ActionType Type,
+    DateOnly Date,
+    bool IsCompleted,
+    string Notes);

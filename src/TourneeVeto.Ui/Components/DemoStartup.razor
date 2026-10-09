@@ -1,0 +1,31 @@
+@namespace TourneeVeto.Ui.Components
+
+<section class="component" aria-labelledby="@TitleId" aria-busy="@(_loading ? "true" : "false")">
+    <h2 id="@TitleId" class="component__title">Données locales de démonstration</h2>
+    @if (_loading)
+    {
+        <p role="status">Chargement des données locales de démonstration…</p>
+    }
+    @if (_error is not null)
+    {
+        <p class="component__error" role="alert">@_error</p>
+        <button type="button" class="component__action" disabled="@_loading" @onclick="LoadAsync">
+            Réessayer le chargement
+        </button>
+    }
+    @if (_data is not null)
+    {
+        <p role="status">
+            Données de démonstration enregistrées localement sur cet appareil :
+            @_data.Herd.Cows.Count vaches, @_data.Visits.Count visites et
+            @_data.Visits.Sum(visit => visit.Actions.Count) actions.
+        </p>
+        <DemoOverview Data="_data.Herd" />
+    }
+    <p class="component__notice">
+        Le stockage local ne constitue pas une sauvegarde ni une synchronisation.
+        Effacer les données du navigateur peut supprimer vos saisies.
+        En navigation privée, leur conservation à la fermeture n'est pas garantie.
+        L'enregistrement des données ne garantit pas à lui seul le démarrage de l'application hors ligne.
+    </p>
+</section>

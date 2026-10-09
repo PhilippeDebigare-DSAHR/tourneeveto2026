@@ -6,6 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.TimeProvider.Testing" Version="10.0.0" />
     <PackageReference Include="bunit" Version="2.11.3" />
     <PackageReference Include="coverlet.collector" Version="6.0.4" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.14.1" />
@@ -20,6 +21,8 @@
   <ItemGroup>
     <EmbeddedResource Include="..\..\src\TourneeVeto.Ui\wwwroot\tokens.css" LogicalName="Design.tokens.css" />
     <EmbeddedResource Include="..\..\src\TourneeVeto.Ui\Components\CowCard.razor.css" LogicalName="Design.CowCard.css" />
+    <EmbeddedResource Include="..\..\src\TourneeVeto.Ui\Components\BiosecurityChecklist.razor.css" LogicalName="Design.BiosecurityChecklist.css" />
+    <EmbeddedResource Include="..\..\src\TourneeVeto.Ui\Components\DemoStartup.razor.css" LogicalName="Design.DemoStartup.css" />
   </ItemGroup>
 
   <ItemGroup>

@@ -3,10 +3,15 @@ using TourneeVeto.Domain.Visits;
 
 namespace TourneeVeto.Domain
 {
-    
     public sealed record DemoDataSet(
         IReadOnlyList<Location> Locations,
         IReadOnlyList<Cow> Cows);
+
+    public sealed record DemoSeed(
+        DateOnly ReferenceDate,
+        int Seed,
+        DemoDataSet Herd,
+        IReadOnlyList<Visit> Visits);
 
     /// <summary>
     /// Génère des données de démonstration entièrement fictives et reproductibles
@@ -52,6 +57,45 @@ namespace TourneeVeto.Domain
         public static DemoDataSet Generate(DateOnly today, int seed)
         {
             var rng = new Random(seed);
+            return GenerateHerdSet(today, rng);
+        }
+
+        public static DemoSeed GenerateSeed(DateOnly today, int seed)
+        {
+            if (today < new DateOnly(10, 1, 1) || today == DateOnly.MaxValue)
+            {
+                throw new ArgumentOutOfRangeException(nameof(today),
+                    "La date doit permettre l'historique des vaches et une visite le lendemain.");
+            }
+
+            var rng = new Random(seed);
+            var herd = GenerateHerdSet(today, rng);
+            var visits = new List<Visit>();
+            foreach (var location in herd.Locations)
+            {
+                var cows = herd.Cows.Where(cow => cow.LocationId == location.Id).Take(5).ToArray();
+                var previousDate = today.AddDays(-30);
+                visits.Add(new Visit(NewGuid(rng), location.Id, previousDate,
+                    "Visite précédente fictive", "Historique de démonstration, sans valeur clinique.", null)
+                {
+                    Actions = [new VisitAction(NewGuid(rng), cows[0].Id, ActionType.PregnancyDiagnosis,
+                        previousDate, true, "Action fictive réalisée.")]
+                });
+                visits.Add(new Visit(NewGuid(rng), location.Id, today,
+                    "Visite de démonstration", string.Empty, null)
+                {
+                    Actions = Enum.GetValues<ActionType>().Select((type, index) =>
+                        new VisitAction(NewGuid(rng), cows[index].Id, type, today,
+                            false, "Exemple fictif, sans recommandation clinique.")).ToArray()
+                });
+                visits.Add(new Visit(NewGuid(rng), location.Id, today.AddDays(1),
+                    "Visite fictive prévue demain", string.Empty, null));
+            }
+            return new DemoSeed(today, seed, herd, visits);
+        }
+
+        private static DemoDataSet GenerateHerdSet(DateOnly today, Random rng)
+        {
             var locations = new List<Location>(FarmCount);
             var cows = new List<Cow>(FarmCount * CowsPerFarm);
 

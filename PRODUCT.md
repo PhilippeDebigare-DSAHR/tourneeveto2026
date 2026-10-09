@@ -55,6 +55,26 @@ TournéeVéto permet au vétérinaire de préparer sa tournée, saisir constats 
 - **Insémination :** dépôt de semence dans l'utérus pour provoquer une gestation (insémination artificielle).
 - **Diagnostic de gestation :** examen (palpation, échographie, test) confirmant ou non la gestation, à un délai donné après l'insémination.
 - **CCS (comptage de cellules somatiques) :** nombre de cellules par mL de lait ; indicateur de santé de la mamelle (mammite). Un seuil élevé déclenche une action (seuil simplifié dans le POC).
-- **Biosécurité :** mesures limitant l'entrée et la propagation des maladies dans l'élevage (visiteurs, animaux introduits, quarantaine, nettoyage). Le *bilan* est une liste de contrôle notée.
+- **Biosécurité :** mesures limitant l'entrée et la propagation des maladies dans l'élevage (visiteurs, animaux introduits, quarantaine, nettoyage). Le *bilan* du POC comporte quatre thèmes simplifiés — visiteurs, introductions d'animaux, isolement et équarrissage — et ne constitue ni une certification ni un avis clinique.
 - **Élevage :** exploitation laitière suivie par le vétérinaire ; unité de la fiche (producteur, troupeau, adresse fictive).
 - **Visite :** passage du vétérinaire dans un élevage à une date donnée ; produit une grille de régie remplie, un bilan de biosécurité et un rapport.
+
+## 6. Jeu de démonstration local (S02)
+
+- Première initialisation : 5 élevages fictifs, 100 vaches par élevage et 3 visites par élevage
+  (30 jours avant la date de référence, le jour de référence et le lendemain).
+- Chaque visite du jour contient un exemple de chacune des 5 catégories d'actions ; chaque
+  visite précédente contient une action fictive réalisée, soit 15 visites et 30 actions.
+  Ces associations servent de fixtures de démonstration : elles ne sont pas des conclusions
+  cliniques calculées à partir des vaches et ne remplacent pas les futures règles de régie.
+- La date de référence vient du `TimeProvider` injecté au premier démarrage ; la graine vaut 42.
+  Le générateur complet accepte les dates du 0010-01-01 (année 10) au 9999-12-30,
+  afin de permettre les dates historiques des vaches et la visite du lendemain.
+- L'initialisation IndexedDB est atomique. Les ouvertures suivantes relisent les données
+  locales sans changer les dates de référence, restaurer les visites supprimées ni écraser
+  les notes, actions ou photos modifiées.
+- Un troupeau déjà enregistré par l'ancien socle est adopté tel quel, sans enrichissement
+  automatique de l'historique. Des données illisibles provoquent une erreur, pas une remise à zéro.
+- Le stockage est limité à cet appareil, sans sauvegarde ni synchronisation. Son effacement
+  et la fermeture d'une session privée peuvent supprimer les saisies. Sa disponibilité ne
+  prouve pas que les ressources de l'application sont en cache pour un redémarrage hors ligne.
