@@ -1,0 +1,171 @@
+@page "/rapport/{VisitId:guid?}"
+@namespace TourneeVeto.Ui.Pages
+
+<PageTitle>TournéeVéto — Rapport de visite</PageTitle>
+
+<article class="report" aria-labelledby="@TitleId" aria-busy="@(_loading ? "true" : "false")">
+    <h1 id="@TitleId" class="report__title">Rapport de visite</h1>
+    <p class="report__notice">Démonstration — données fictives. Synthèse indicative, sans conseil clinique.</p>
+
+    @if (_loading)
+    {
+        <p role="status">Chargement de la visite enregistrée…</p>
+    }
+    else if (_loadError is not null)
+    {
+        <p class="report__error" role="alert">@_loadError</p>
+        <button type="button" class="report__action report__no-print" @onclick="LoadAsync">Réessayer le chargement</button>
+    }
+    else if (_notFound)
+    {
+        <p class="report__error" role="alert">
+            Aucune visite enregistrée ne correspond à ce rapport. Aucune donnée n'est affichée.
+        </p>
+    }
+    else if (_visit is not null && _summary is not null)
+    {
+        <section class="report__section" aria-labelledby="@($"{_id}-visit")">
+            <h2 id="@($"{_id}-visit")">Visite</h2>
+            <dl class="report__facts">
+                <dt>Date</dt>
+                <dd>@FormatDate(_visit.Date)</dd>
+                <dt>Motif</dt>
+                <dd>@(string.IsNullOrWhiteSpace(_summary.Cause) ? "Non renseigné" : _summary.Cause)</dd>
+                <dt>Notes</dt>
+                <dd>@(string.IsNullOrWhiteSpace(_summary.Notes) ? "Aucune note" : _summary.Notes)</dd>
+                <dt>État</dt>
+                <dd class="report__state">
+                    @if (_visit.ClosedOn is { } closedOn)
+                    {
+                        <span>Visite clôturée le @FormatDate(closedOn)</span>
+                    }
+                    else
+                    {
+                        <span>Visite ouverte</span>
+                    }
+                </dd>
+            </dl>
+        </section>
+
+        <section class="report__section" aria-labelledby="@($"{_id}-actions")">
+            <h2 id="@($"{_id}-actions")">Actions</h2>
+            <h3>Actions réalisées (@_summary.CompletedActions.Count)</h3>
+            @if (_summary.CompletedActions.Count == 0)
+            {
+                <p>Aucune action réalisée.</p>
+            }
+            else
+            {
+                <ul class="report__list" data-testid="completed-actions">
+                    @foreach (var action in _summary.CompletedActions)
+                    {
+                        <li @key="action.Id">@ActionText(action)</li>
+                    }
+                </ul>
+            }
+            <h3>Actions à suivre (@_summary.PendingActions.Count)</h3>
+            @if (_summary.PendingActions.Count == 0)
+            {
+                <p>Aucune action à suivre.</p>
+            }
+            else
+            {
+                <ul class="report__list" data-testid="pending-actions">
+                    @foreach (var action in _summary.PendingActions)
+                    {
+                        <li @key="action.Id">@ActionText(action)</li>
+                    }
+                </ul>
+            }
+        </section>
+
+        <section class="report__section" aria-labelledby="@($"{_id}-bio")">
+            <h2 id="@($"{_id}-bio")">Bilan de biosécurité</h2>
+            <p>
+                Score indicatif : <strong>@FormatScore(_summary.ScorePercent)</strong>
+                — @_summary.AnsweredCount question(s) répondue(s) sur @_summary.QuestionCount.
+            </p>
+            @if (!_summary.IsBiosecurityComplete)
+            {
+                <p class="report__warning">Bilan incomplet : le score ne porte que sur les questions répondues.</p>
+            }
+            <ul class="report__list" data-testid="sections">
+                @foreach (var section in _summary.Sections)
+                {
+                    <li @key="section.Section">
+                        @section.Section : @section.AnsweredCount / @section.QuestionCount répondue(s),
+                        score @FormatScore(section.ScorePercent)@(section.IsComplete ? "" : " (section incomplète)")
+                    </li>
+                }
+            </ul>
+            <h3>Pratiques prioritaires</h3>
+            @if (_summary.PriorityPractices.Count == 0)
+            {
+                <p>Aucune pratique défavorable enregistrée.</p>
+            }
+            else
+            {
+                <ol class="report__list" data-testid="priorities">
+                    @foreach (var practice in _summary.PriorityPractices)
+                    {
+                        <li @key="practice.QuestionId">
+                            @practice.Section — @practice.Prompt
+                            Réponse : @practice.AnswerLabel@(practice.IsCritique ? " (point critique)" : "")
+                        </li>
+                    }
+                </ol>
+            }
+        </section>
+
+        @if (_visit.PhotoId is not null)
+        {
+            <section class="report__section report__photo" aria-labelledby="@($"{_id}-photo")">
+                <h2 id="@($"{_id}-photo")">Photo de la visite</h2>
+                @if (_photoError is not null)
+                {
+                    <p class="report__error" role="alert">@_photoError</p>
+                }
+                else if (_photoSource is not null)
+                {
+                    <img class="report__photo-image" data-report-photo src="@_photoSource"
+                         alt="Photo associée à la visite, enregistrée localement sur cet appareil" />
+                }
+            </section>
+        }
+
+        @if (_visit.IsClosed)
+        {
+            <p class="report__success" role="status">
+                Visite clôturée et enregistrée localement sur cet appareil le @FormatDate(_visit.ClosedOn!.Value).
+            </p>
+        }
+        <div class="report__commands">
+            @if (!_visit.IsClosed)
+            {
+                <button type="button" class="report__action" data-testid="close-visit" disabled="@_saving" @onclick="CloseAsync">
+                    Clôturer la visite et l'enregistrer
+                </button>
+            }
+            <button type="button" class="report__action report__action--secondary" data-testid="print-report"
+                    disabled="@_printing" @onclick="PrintAsync">
+                Imprimer / PDF
+            </button>
+        </div>
+        @if (_saving)
+        {
+            <p role="status">Enregistrement de la clôture…</p>
+        }
+        @if (_printing)
+        {
+            <p role="status" class="report__no-print">Préparation de l'impression…</p>
+        }
+        @if (_saveError is not null)
+        {
+            <p class="report__error report__no-print" role="alert">@_saveError</p>
+        }
+        @if (_printError is not null)
+        {
+            <p class="report__error report__no-print" role="alert">@_printError</p>
+        }
+    }
+</article>

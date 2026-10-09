@@ -2,6 +2,10 @@ namespace TourneeVeto.Domain.Biosecurity;
 
 public static class BiosecurityChecklistReference
 {
+    /// <summary>
+    /// Référentiel fictif. <see cref="BiosecurityOption.Value"/> (<see cref="Answer"/>) est un niveau de conformité
+    /// (Yes = favorable, Partially = intermédiaire, No = défavorable), pas forcément la réponse littérale oui/non.
+    /// </summary>
     public static IReadOnlyList<BiosecurityQuestion> Questions { get; } =
         Array.AsReadOnly(new[]
         {
@@ -27,15 +31,15 @@ public static class BiosecurityChecklistReference
                 "Acquisition de bovins extérieurs au cours des 30 derniers jours ?",
                 new BiosecurityOption(
                     Guid.Parse("07000000-0000-0000-0002-000000000001"),
-                    Answer.No,
+                    Answer.Yes, // Troupeau fermé : pratique favorable, bien que la question soit posée sur l'acquisition
                     "Aucun bovin introduit (troupeau fermé)"),
                 new BiosecurityOption(
                     Guid.Parse("07000000-0000-0000-0002-000000000002"),
-                    Answer.Yes,
+                    Answer.Partially,
                     "Oui, avec certificat sanitaire"),
                 new BiosecurityOption(
                     Guid.Parse("07000000-0000-0000-0002-000000000003"),
-                    Answer.Partially,
+                    Answer.No,
                     "Oui, sans contrôle formel")),
             CreateQuestion(
                 Guid.Parse("07000000-0000-0000-0000-000000000003"),

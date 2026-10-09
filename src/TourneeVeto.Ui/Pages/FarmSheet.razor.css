@@ -1,0 +1,97 @@
+.sheet {
+    display: grid;
+    gap: var(--space-md);
+    padding: var(--space-md);
+    border: var(--border-width) solid var(--color-border);
+    border-radius: var(--radius-card);
+    background: var(--color-background);
+    color: var(--color-text);
+    font-family: var(--font-family-body);
+    font-size: var(--font-size-body-lg);
+    line-height: var(--line-height-body-lg);
+    overflow-wrap: anywhere;
+}
+
+.sheet__title,
+.sheet__farm,
+.sheet p {
+    margin: var(--space-none);
+}
+
+.sheet__title {
+    font-size: var(--font-size-headline-lg);
+    font-weight: var(--font-weight-semibold);
+}
+
+.sheet__farm {
+    font-size: var(--font-size-headline-md);
+}
+
+.sheet__heading {
+    margin: var(--space-none);
+    font-size: var(--font-size-body-lg);
+    font-weight: var(--font-weight-semibold);
+}
+
+.sheet__section {
+    display: grid;
+    gap: var(--space-sm);
+    padding: var(--space-md);
+    border: var(--border-width) solid var(--color-border);
+    border-radius: var(--radius-card);
+    background: var(--color-surface);
+}
+
+.sheet__list {
+    display: grid;
+    gap: var(--space-sm);
+    margin: var(--space-none);
+    padding: var(--space-none);
+    list-style: none;
+}
+
+.sheet__item {
+    display: grid;
+    gap: var(--space-2xs);
+    padding: var(--space-sm);
+    border: var(--border-width) solid var(--color-border);
+    border-radius: var(--radius-card);
+    background: var(--color-surface-low);
+}
+
+.sheet__item-title,
+.sheet__label {
+    font-weight: var(--font-weight-semibold);
+}
+
+.sheet__empty {
+    color: var(--color-text-muted);
+}
+
+.sheet__error {
+    padding: var(--space-md);
+    border-radius: var(--radius-card);
+    background: var(--color-error-container);
+    color: var(--color-on-error-container);
+}
+
+.sheet__back {
+    display: inline-flex;
+    align-items: center;
+    justify-self: start;
+    min-height: var(--touch-target-button);
+    color: var(--color-text);
+    font-weight: var(--font-weight-semibold);
+    text-decoration: underline;
+}
+
+.sheet__back:focus-visible {
+    outline: var(--focus-width) solid var(--color-focus);
+    outline-offset: var(--focus-offset);
+}
+
+@media (max-width: 639px) {
+    .sheet {
+        padding: var(--gutter);
+    }
+}

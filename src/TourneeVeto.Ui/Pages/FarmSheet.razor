@@ -1,0 +1,98 @@
+@page "/elevage/{FarmId:guid}"
+@namespace TourneeVeto.Ui.Pages
+
+<PageTitle>TournéeVéto — Fiche d'élevage</PageTitle>
+
+<section class="sheet" aria-labelledby="@TitleId" aria-busy="@(_loading ? "true" : "false")">
+    <h1 id="@TitleId" class="sheet__title">Fiche d'élevage</h1>
+
+    @if (_loading)
+    {
+        <p role="status">Chargement de la fiche…</p>
+    }
+    else if (_error is not null)
+    {
+        <p class="sheet__error" role="alert">@_error</p>
+    }
+    else if (_farm is not null)
+    {
+        <h2 class="sheet__farm" data-testid="farm-name">@_farm.Name</h2>
+        <p data-testid="farm-city">@_farm.City</p>
+        <p data-testid="farm-id" hidden>@_farm.Id</p>
+
+        <section class="sheet__section" aria-labelledby="@($"{_id}-herd")" data-testid="farm-herd">
+            <h3 id="@($"{_id}-herd")" class="sheet__heading">Effectif</h3>
+            <p data-testid="farm-animal-count">@_farm.AnimalCount.ToString(French) @(_farm.AnimalCount is 1 or 0 ? "animal" : "animaux")</p>
+        </section>
+
+        @if (Summary is not null)
+        {
+            <section class="sheet__section" aria-labelledby="@($"{_id}-visits")" data-testid="farm-previous-visits">
+                <h3 id="@($"{_id}-visits")" class="sheet__heading">Visites précédentes</h3>
+                @if (Summary.PreviousVisits.Count == 0)
+                {
+                    <p class="sheet__empty" data-testid="farm-previous-visits-empty">Aucune visite précédente enregistrée pour cet élevage.</p>
+                }
+                else
+                {
+                    <ul class="sheet__list">
+                        @foreach (var visit in Summary.PreviousVisits)
+                        {
+                            <li class="sheet__item" data-testid="farm-previous-visit">
+                                <p class="sheet__item-title"><time datetime="@visit.Date.ToString("yyyy-MM-dd")">@FormatDate(visit.Date)</time></p>
+                                <p><span class="sheet__label">Motif :</span> @(string.IsNullOrWhiteSpace(visit.Cause) ? "Non renseigné" : visit.Cause)</p>
+                                @if (!string.IsNullOrWhiteSpace(visit.Notes))
+                                {
+                                    <p><span class="sheet__label">Notes :</span> @visit.Notes</p>
+                                }
+                            </li>
+                        }
+                    </ul>
+                }
+            </section>
+
+            <section class="sheet__section" aria-labelledby="@($"{_id}-actions")" data-testid="farm-pending-actions">
+                <h3 id="@($"{_id}-actions")" class="sheet__heading">Actions en attente</h3>
+                @if (Summary.PendingActions.Count == 0)
+                {
+                    <p class="sheet__empty" data-testid="farm-pending-actions-empty">Aucune action en attente issue des visites précédentes.</p>
+                }
+                else
+                {
+                    <ul class="sheet__list">
+                        @foreach (var pending in Summary.PendingActions)
+                        {
+                            <li class="sheet__item" data-testid="farm-pending-action">
+                                <p class="sheet__item-title">@ActionLabel(pending.Action.Type)</p>
+                                <p data-testid="farm-pending-action-cow"><span class="sheet__label">Vache :</span> @CowName(pending.Action.CowId)</p>
+                                <p><span class="sheet__label">Visite du</span> <time datetime="@pending.VisitDate.ToString("yyyy-MM-dd")">@FormatDate(pending.VisitDate)</time></p>
+                                <p><span class="sheet__label">Action prévue le</span> <time datetime="@pending.Action.Date.ToString("yyyy-MM-dd")">@FormatDate(pending.Action.Date)</time></p>
+                                @if (!string.IsNullOrWhiteSpace(pending.Action.Notes))
+                                {
+                                    <p><span class="sheet__label">Note :</span> @pending.Action.Notes</p>
+                                }
+                            </li>
+                        }
+                    </ul>
+                }
+            </section>
+        }
+    }
+    <a class="sheet__back" href="tournee">Retour à la tournée du jour</a>
+</section>
+
+@code {
+    private static readonly System.Globalization.CultureInfo French = System.Globalization.CultureInfo.GetCultureInfo("fr-FR");
+
+    private static string FormatDate(DateOnly date) => date.ToString("d MMMM yyyy", French);
+
+    private static string ActionLabel(TourneeVeto.Domain.Visits.ActionType type) => type switch
+    {
+        TourneeVeto.Domain.Visits.ActionType.PregnancyDiagnosis => "Diagnostic de gestation",
+        TourneeVeto.Domain.Visits.ActionType.HighSomaticCellCount => "Cellules somatiques élevées",
+        TourneeVeto.Domain.Visits.ActionType.DryOff => "Tarissement",
+        TourneeVeto.Domain.Visits.ActionType.Calving => "Vêlage",
+        TourneeVeto.Domain.Visits.ActionType.Insemination => "Insémination",
+        _ => "Action"
+    };
+}

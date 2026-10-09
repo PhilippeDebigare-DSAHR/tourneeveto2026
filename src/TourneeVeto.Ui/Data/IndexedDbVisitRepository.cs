@@ -1,4 +1,4 @@
-using System.Diagnostics.CodeAnalysis;
+﻿using System.Diagnostics.CodeAnalysis;
 using System.Text.Json;
 using System.Text.Json.Serialization.Metadata;
 using Microsoft.JSInterop;
@@ -70,8 +70,16 @@ public sealed class IndexedDbVisitRepository : IVisitRepository, IAsyncDisposabl
         return MutateAsync("deleteVisit", id);
     }
 
-    public Task<DemoDataSet?> GetHerdAsync() =>
-        ReadAsync("getHerd", VisitStoreJsonContext.Default.StorageResultDemoDataSet);
+    public async Task<DemoDataSet?> GetHerdAsync()
+    {
+        var herd = await ReadAsync("getHerd", VisitStoreJsonContext.Default.StorageResultDemoDataSet);
+        if (herd is not null && (herd.Locations is null || herd.Locations.Any(location => location is null)))
+        {
+            throw InvalidResponse();
+        }
+
+        return herd;
+    }
 
     public Task SaveHerdAsync(DemoDataSet herd)
     {
@@ -169,11 +177,20 @@ public sealed class IndexedDbVisitRepository : IVisitRepository, IAsyncDisposabl
         {
             result = JsonSerializer.Deserialize(json, type) ?? throw InvalidResponse();
         }
-        catch (JsonException exception)
+        catch (JsonException)
         {
+            // Message et exception d'origine écartés : détail fixe uniquement.
             throw new VisitStorageException(VisitStorageError.InvalidData,
                 "Les données locales sont illisibles. Aucun enregistrement n'est confirmé.",
-                exception.Message, exception);
+                "Réponse de stockage local non lisible.");
+        }
+        catch (ArgumentException)
+        {
+            // Couvre aussi ArgumentOutOfRangeException : invariant de Visit rompu à la lecture.
+            // Le message brut et l'exception d'origine sont volontairement écartés (journaux/UI).
+            throw new VisitStorageException(VisitStorageError.InvalidData,
+                "Les données locales sont illisibles. Aucun enregistrement n'est confirmé.",
+                "Invariant de données locales non respecté.");
         }
 
         if (result.Error is { } error)
@@ -181,17 +198,17 @@ public sealed class IndexedDbVisitRepository : IVisitRepository, IAsyncDisposabl
             throw error.Code switch
             {
                 "quota" => new VisitStorageException(VisitStorageError.QuotaExceeded,
-                    "Le quota de stockage local est dépassé. Les données n'ont pas été enregistrées.", error.Detail),
+                    "Le quota de stockage local est dépassé. Les données n'ont pas été enregistrées.", "Erreur de stockage : quota."),
                 "unavailable" => new VisitStorageException(VisitStorageError.Unavailable,
-                    "Le stockage local est indisponible ou refusé. Les données ne sont pas prêtes pour le hors-ligne.", error.Detail),
+                    "Le stockage local est indisponible ou refusé. Les données ne sont pas prêtes pour le hors-ligne.", "Erreur de stockage : indisponible."),
                 "blocked" => new VisitStorageException(VisitStorageError.UpgradeBlocked,
-                    "La mise à jour du stockage est bloquée. Fermez les autres onglets TournéeVéto puis réessayez.", error.Detail),
+                    "La mise à jour du stockage est bloquée. Fermez les autres onglets TournéeVéto puis réessayez.", "Erreur de stockage : mise à jour bloquée."),
                 "version" => new VisitStorageException(VisitStorageError.UnsupportedVersion,
-                    "Le stockage local utilise une version plus récente. Mettez l'application à jour.", error.Detail),
+                    "Le stockage local utilise une version plus récente. Mettez l'application à jour.", "Erreur de stockage : version non prise en charge."),
                 "invalid" => new VisitStorageException(VisitStorageError.InvalidData,
-                    "Les données à enregistrer ou leurs références sont invalides. Aucun enregistrement n'est confirmé.", error.Detail),
+                    "Les données à enregistrer ou leurs références sont invalides. Aucun enregistrement n'est confirmé.", "Erreur de stockage : données invalides."),
                 _ => new VisitStorageException(VisitStorageError.Unknown,
-                    "L'accès au stockage local a échoué. Aucun enregistrement n'est confirmé.", error.Detail)
+                    "L'accès au stockage local a échoué. Aucun enregistrement n'est confirmé.", "Erreur de stockage : inconnue.")
             };
         }
 
@@ -207,11 +224,12 @@ public sealed class IndexedDbVisitRepository : IVisitRepository, IAsyncDisposabl
             _module ??= await _js.InvokeAsync<IJSObjectReference>("import", ModulePath);
             return await _module.InvokeAsync<T>(operation, args);
         }
-        catch (JSException exception)
+        catch (JSException)
         {
+            // Message et exception d'origine écartés : détail fixe uniquement.
             throw new VisitStorageException(VisitStorageError.Unavailable,
                 "L'accès au module de stockage local a échoué. Aucun enregistrement n'est confirmé.",
-                exception.Message, exception);
+                "Erreur d'interopérabilité du module de stockage.");
         }
         finally
         {

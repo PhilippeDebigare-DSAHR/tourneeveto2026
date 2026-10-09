@@ -334,25 +334,61 @@ public sealed class IndexedDbVisitRepositoryTests
     }
 
     [Theory]
-    [InlineData("quota", VisitStorageError.QuotaExceeded)]
-    [InlineData("unavailable", VisitStorageError.Unavailable)]
-    [InlineData("blocked", VisitStorageError.UpgradeBlocked)]
-    [InlineData("version", VisitStorageError.UnsupportedVersion)]
-    [InlineData("invalid", VisitStorageError.InvalidData)]
-    [InlineData("unknown", VisitStorageError.Unknown)]
-    public async Task Echec_EstExpliciteEtConserveLeDetail(string code, VisitStorageError expected)
+    [InlineData("quota", VisitStorageError.QuotaExceeded, "Erreur de stockage : quota.", "Le quota de stockage local est dépassé. Les données n'ont pas été enregistrées.")]
+    [InlineData("unavailable", VisitStorageError.Unavailable, "Erreur de stockage : indisponible.", "Le stockage local est indisponible ou refusé. Les données ne sont pas prêtes pour le hors-ligne.")]
+    [InlineData("blocked", VisitStorageError.UpgradeBlocked, "Erreur de stockage : mise à jour bloquée.", "La mise à jour du stockage est bloquée. Fermez les autres onglets TournéeVéto puis réessayez.")]
+    [InlineData("version", VisitStorageError.UnsupportedVersion, "Erreur de stockage : version non prise en charge.", "Le stockage local utilise une version plus récente. Mettez l'application à jour.")]
+    [InlineData("invalid", VisitStorageError.InvalidData, "Erreur de stockage : données invalides.", "Les données à enregistrer ou leurs références sont invalides. Aucun enregistrement n'est confirmé.")]
+    [InlineData("unknown", VisitStorageError.Unknown, "Erreur de stockage : inconnue.", "L'accès au stockage local a échoué. Aucun enregistrement n'est confirmé.")]
+    public async Task Echec_ExposeUnDetailEtUnMessageFixesSansFuite(string code, VisitStorageError expected, string detailFixe, string messageFixe)
     {
+        const string secret = "SECRET-DETAIL-JS-5521";
         using var contexte = new BunitContext();
         var module = contexte.JSInterop.SetupModule(IndexedDbVisitRepository.ModulePath);
         module.Setup<string>("save", _ => true)
-            .SetResult($$$"""{"value":null,"error":{"code":"{{{code}}}","detail":"refus simulé"}}""");
+            .SetResult($$$"""{"value":null,"error":{"code":"{{{code}}}","detail":"{{{secret}}}"}}""");
         await using var repository = new IndexedDbVisitRepository(contexte.JSInterop.JSRuntime);
 
         var error = await Assert.ThrowsAsync<VisitStorageException>(() => repository.SaveAsync(Example));
 
         Assert.Equal(expected, error.Code);
-        Assert.Equal("refus simulé", error.Detail);
-        Assert.NotEmpty(error.Message);
+        Assert.Equal(detailFixe, error.Detail);
+        Assert.Equal(messageFixe, error.Message);
+        Assert.Null(error.InnerException);
+        Assert.DoesNotContain(secret, error.ToString());
+    }
+
+    [Fact]
+    public async Task JsonIllisible_DetailFixeSansInnerNiMessageBrut()
+    {
+        using var contexte = new BunitContext();
+        var module = contexte.JSInterop.SetupModule(IndexedDbVisitRepository.ModulePath);
+        module.Setup<string>("getAll").SetResult("SECRET-JSON-8812 {pas du json");
+        await using var repository = new IndexedDbVisitRepository(contexte.JSInterop.JSRuntime);
+
+        var error = await Assert.ThrowsAsync<VisitStorageException>(() => repository.GetAllAsync());
+
+        Assert.Equal(VisitStorageError.InvalidData, error.Code);
+        Assert.Equal("Réponse de stockage local non lisible.", error.Detail);
+        Assert.Null(error.InnerException);
+        Assert.DoesNotContain("SECRET-JSON-8812", error.ToString());
+    }
+
+    [Fact]
+    public async Task InvariantDeVisiteRompu_DetailFixeSansInnerNiMessageBrut()
+    {
+        using var contexte = new BunitContext();
+        var module = contexte.JSInterop.SetupModule(IndexedDbVisitRepository.ModulePath);
+        var visite = JsonSerializer.SerializeToNode(Example, JsonSerializerOptions.Web)!.AsObject();
+        visite["closedOn"] = "2000-01-01";
+        module.Setup<string>("getAll").SetResult($$"""{"value":[{{visite.ToJsonString()}}],"error":null}""");
+        await using var repository = new IndexedDbVisitRepository(contexte.JSInterop.JSRuntime);
+
+        var error = await Assert.ThrowsAnyAsync<VisitStorageException>(() => repository.GetAllAsync());
+
+        Assert.Equal(VisitStorageError.InvalidData, error.Code);
+        Assert.Equal("Invariant de données locales non respecté.", error.Detail);
+        Assert.Null(error.InnerException);
     }
 
     [Theory]
@@ -373,17 +409,19 @@ public sealed class IndexedDbVisitRepositoryTests
     }
 
     [Fact]
-    public async Task InteropEchoue_ConserveLExceptionSansFauxSucces()
+    public async Task InteropEchoue_DetailFixeSansInnerNiFauxSucces()
     {
         using var contexte = new BunitContext();
         var module = contexte.JSInterop.SetupModule(IndexedDbVisitRepository.ModulePath);
-        module.Setup<string>("getAll").SetException(new JSException("Module indisponible"));
+        module.Setup<string>("getAll").SetException(new JSException("SECRET-JS-3301"));
         await using var repository = new IndexedDbVisitRepository(contexte.JSInterop.JSRuntime);
 
         var error = await Assert.ThrowsAsync<VisitStorageException>(() => repository.GetAllAsync());
 
         Assert.Equal(VisitStorageError.Unavailable, error.Code);
-        Assert.IsType<JSException>(error.InnerException);
+        Assert.Null(error.InnerException);
+        Assert.Equal("Erreur d'interopérabilité du module de stockage.", error.Detail);
+        Assert.DoesNotContain("SECRET-JS-3301", error.ToString());
         await Assert.ThrowsAsync<VisitStorageException>(() => repository.GetAllAsync());
         Assert.Single(contexte.JSInterop.Invocations["import"]);
         Assert.Equal(2, module.Invocations["getAll"].Count);

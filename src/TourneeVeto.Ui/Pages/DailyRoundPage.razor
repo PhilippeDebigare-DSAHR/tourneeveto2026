@@ -1,0 +1,43 @@
+@page "/tournee"
+@namespace TourneeVeto.Ui.Pages
+
+<PageTitle>TournéeVéto — Tournée du jour</PageTitle>
+
+<section class="round" aria-labelledby="@TitleId" aria-busy="@(_loading ? "true" : "false")">
+    <h1 id="@TitleId" class="round__title">Tournée du jour</h1>
+    <p class="round__notice">Démonstration — données fictives.</p>
+
+    @if (_loading)
+    {
+        <p role="status">Chargement de la tournée…</p>
+    }
+    else if (_error is not null)
+    {
+        <p class="round__error" role="alert">@_error</p>
+        <button type="button" class="round__action" @onclick="LoadAsync">Réessayer le chargement</button>
+    }
+    else if (_round is not null)
+    {
+        <p class="round__date">Tournée du <time datetime="@_round.Date.ToString("yyyy-MM-dd")">@FormatDate(_round.Date)</time></p>
+        @if (_round.Farms.Count == 0)
+        {
+            <p class="round__empty" role="status">Aucun élevage n'est prévu à cette date.</p>
+        }
+        else
+        {
+            <p role="status">@_round.Farms.Count élevage(s) prévu(s).</p>
+            <ul class="round__list" data-testid="round-farms">
+                @foreach (var entry in _round.Farms)
+                {
+                    <li @key="entry.Farm.Id" class="round__item">
+                        <a class="round__link" href="@($"elevage/{entry.Farm.Id}")" data-farm-id="@entry.Farm.Id">
+                            <span class="round__farm">@entry.Farm.Name</span>
+                            <span class="round__meta">@entry.Farm.City — @entry.Visits.Count visite(s) prévue(s)</span>
+                            <span class="round__open">Ouvrir la fiche de @entry.Farm.Name</span>
+                        </a>
+                    </li>
+                }
+            </ul>
+        }
+    }
+</section>
