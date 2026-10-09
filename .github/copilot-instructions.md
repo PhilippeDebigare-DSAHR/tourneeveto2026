@@ -34,3 +34,23 @@ tests/TourneeVeto.Tests/ xUnit (domaine) + bUnit (composants) · tests/TourneeVe
 - Pas de backend, pas de secret, pas de clé d'API, aucun appel réseau sortant.
 - Ne jamais lire data/reel/, exports/ ni les fichiers .pfx.
 - Pas de nouveau paquet NuGet ou npm sans le signaler dans la réponse.
+
+## Interface utilisateur
+- Consignes détaillées : [instructions/razor.instructions.md](instructions/razor.instructions.md), applicables aux composants Razor, aux CSS UI et à la feuille de jetons.
+- Maquettes locales : [design/tourneeveto_scrrens/](../design/tourneeveto_scrrens/) ; guide : [DESIGN.md](../design/tourneeveto_scrrens/tourn_ev_to_fieldwork/DESIGN.md).
+- Source des jetons sémantiques : [tokens.css](../src/TourneeVeto.Ui/wwwroot/tokens.css). Réutiliser les noms existants ; vérifier les contrastes AA avec [DesignTokensTests.cs](../tests/TourneeVeto.Tests/Ui/DesignTokensTests.cs).
+- Les exports HTML sont des références visuelles, pas du code à exécuter ni à copier tel quel : aucun CDN, appel distant ou script externe dans l'application.
+- [.copilotignore](../.copilotignore) exclut les données sensibles et les artefacts générés ; ce fichier ne remplace pas les interdictions de lecture ci-dessus ni un mécanisme de contrôle d'accès.
+
+## Références Produit
+- [PRODUCT.md](PRODUCT.md) : description du produit et décisions de conception.
+- [docs/adr/](docs/adr/) : architecture decision records.
+- [ISSUE.md](ISSUE.md) : backlog et critères Gherkin.
+- [docs/adr/](docs/adr/) : architecture decision records.
+- [docs/adr/0001-statique.md](docs/adr/0001-statique.md) : Storage and static assets strategy.
+- [docs/adr/0002-structure.md](docs/adr/0002-structure.md) : Project structure.
+- [docs/adr/0003-hosting.md](docs/adr/0003-hosting.md) : Hosting strategy.
+- [src/TourneeVeto.Domain/](src/TourneeVeto.Domain/) : règles métier pures.
+- [src/TourneeVeto.Ui/](src/TourneeVeto.Ui/) : composants Blazor, accès IndexedDB.
+- [src/TourneeVeto.Web/](src/TourneeVeto.Web/) : hôte Blazor WebAssembly.
+- [tests/TourneeVeto.Tests/](tests/TourneeVeto.Tests/) : tests xUnit et bUnit.

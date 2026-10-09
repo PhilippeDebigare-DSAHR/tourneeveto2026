@@ -18,6 +18,8 @@ launchSettings.local.json
 # 2. Données réelles d'élevages et de producteurs (exports de test)
 data/reel/
 exports/
+**/data/reel/**
+**/exports/**
 **/*-reel.csv
 **/*-reel.json
 **/*.bak
@@ -44,7 +46,7 @@ publish/
 
 # 5. Fichiers volumineux ou minifiés sans valeur pour l'IA
 **/wwwroot/lib/**
-node_modules/
+**/node_modules/
 *.min.js
 *.min.css
 *.map
@@ -53,6 +55,10 @@ node_modules/
 *.wasm
 *.dat
 design/stitch/**/*.html
+
+# Références UI à conserver accessibles : design/tourneeveto_scrrens/
+# (screen.png, code.html et DESIGN.md), tokens.css et instructions UI.
+# Ne pas exclure globalement design/, les fichiers HTML ou les images PNG.
 
 # 6. Journaux et dépôt Git
 logs/

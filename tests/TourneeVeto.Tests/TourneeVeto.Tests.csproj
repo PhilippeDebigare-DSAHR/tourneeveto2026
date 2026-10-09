@@ -18,6 +18,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="..\..\src\TourneeVeto.Ui\wwwroot\tokens.css" LogicalName="Design.tokens.css" />
+    <EmbeddedResource Include="..\..\src\TourneeVeto.Ui\Components\CowCard.razor.css" LogicalName="Design.CowCard.css" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\..\src\TourneeVeto.Domain\TourneeVeto.Domain.csproj" />
     <ProjectReference Include="..\..\src\TourneeVeto.Ui\TourneeVeto.Ui.csproj" />
   </ItemGroup>

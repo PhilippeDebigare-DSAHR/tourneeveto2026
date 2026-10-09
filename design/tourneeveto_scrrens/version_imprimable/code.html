@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+
+<html lang="fr"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_standard" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@600;700&amp;family=Work+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{colors:{"inverse-primary":"#96d5a3","outline":"#717970","on-error":"#ffffff","on-tertiary-fixed-variant":"#93000b","primary":"#003b1b","on-error-container":"#93000a","on-surface-variant":"#404941","on-primary-container":"#87c695","tertiary-fixed":"#ffdad6","secondary-container":"#fd925b","surface-container":"#e5f1e7","tertiary":"#6b0005","inverse-surface":"#28332c","surface-container-low":"#ebf7ed","on-secondary-container":"#712c00","surface-variant":"#dae5dc","primary-fixed-dim":"#96d5a3","surface-container-highest":"#dae5dc","surface":"#f1fcf2","tertiary-fixed-dim":"#ffb4ab","primary-fixed":"#b1f2be","on-primary-fixed":"#00210d","background":"#f1fcf2","surface-container-high":"#e0ebe1","on-secondary-fixed-variant":"#7a3000","surface-bright":"#f1fcf2","on-primary":"#ffffff","on-secondary":"#ffffff","primary-container":"#14532d","surface-container-lowest":"#ffffff","on-secondary-fixed":"#341000","error":"#ba1a1a","on-tertiary-fixed":"#410002","on-background":"#141e18","secondary":"#9a4614","tertiary-container":"#96000b","on-tertiary-container":"#ff9d92","secondary-fixed":"#ffdbcb","surface-dim":"#d1ddd3","on-surface":"#141e18","outline-variant":"#c0c9be","on-tertiary":"#ffffff","error-container":"#ffdad6","on-primary-fixed-variant":"#12512c","inverse-on-surface":"#e8f4ea","secondary-fixed-dim":"#ffb693","surface-tint":"#2e6a41"},borderRadius:{"DEFAULT":"0.125rem","lg":"0.25rem","xl":"0.5rem","full":"0.75rem"},spacing:{"margin":"1rem","gutter-tablet":"1.25rem","gutter":"1rem","margin-desktop":"2rem","space-lg":"1.75rem","space-sm":"0.75rem","gutter-desktop":"1.5rem","space-md":"1.25rem","space-xl":"2.5rem","margin-tablet":"1.5rem","space-xs":"0.375rem"},fontFamily:{"label-sm":["JetBrains Mono"],"cow-tag-inline":["JetBrains Mono"],"cow-tag-display":["JetBrains Mono"],"body-lg":["Work Sans"],"headline-md":["Work Sans"],"headline-xl-mobile":["Work Sans"],"headline-xl":["Work Sans"],"label-md":["Work Sans"],"body-lg-bold":["Work Sans"],"body-md":["Work Sans"],"headline-lg":["Work Sans"]},fontSize:{"label-sm":["13px",{"lineHeight":"16px","fontWeight":"600"}],"cow-tag-inline":["18px",{"lineHeight":"22px","fontWeight":"700"}],"cow-tag-display":["28px",{"lineHeight":"32px","fontWeight":"700"}],"body-lg":["18px",{"lineHeight":"26px","fontWeight":"400"}],"headline-md":["20px",{"lineHeight":"28px","fontWeight":"600"}],"headline-xl-mobile":["26px",{"lineHeight":"34px","fontWeight":"700"}],"headline-xl":["32px",{"lineHeight":"40px","fontWeight":"700"}],"label-md":["16px",{"lineHeight":"20px","fontWeight":"500"}],"body-lg-bold":["18px",{"lineHeight":"26px","fontWeight":"600"}],"body-md":["16px",{"lineHeight":"24px","fontWeight":"400"}],"headline-lg":["24px",{"lineHeight":"32px","fontWeight":"600"}]}}}}</script></head><body class="bg-background font-body-md text-on-surface antialiased min-h-screen flex flex-col"><header class="fixed top-0 left-0 right-0 z-50 bg-surface-container-lowest border-b border-outline-variant shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="bg-surface-container-high px-gutter-desktop py-space-xs border-b border-outline-variant"><div class="w-full flex items-center justify-between gap-gutter"><div class="flex items-center gap-space-xs text-on-surface-variant font-label-sm text-label-sm"><span class="material-symbols-outlined text-[16px] text-secondary">info</span><span>Démonstration — données fictives. Règles simplifiées, sans valeur de prescription ni de registre officiel.</span></div><div class="hidden md:flex items-center gap-space-sm font-label-sm text-label-sm text-on-surface-variant"><span class="inline-block w-2 h-2 rounded-full bg-primary"></span><span>PWA Blazor WebAssembly Terrain</span></div></div></div><div class="h-16 w-full px-gutter-desktop flex items-center justify-between gap-gutter border-b border-outline-variant"><div class="flex items-center gap-space-md"><img alt="Logo TournéeVéto" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB5l_xar3pin6_ysqfoYnJ35hC-elQqEKH73eIAo0EuC--Yg4av2-BwFWeVBG6a5KfAkNkwR7It2xolhyQ4DiuqO99xRpCPSqFNlTRQI96A0zXxEXYaS8Jg5ZAt1Lv1Fn4c9otXzmO4nUXgxmM3ATG3DVXUMfVC3CjXpLLuiwtGozzMVzilRd_VK9f57L2fNPVFrf9K8AQgMc5iG9qAzYV8RoDA2VVvnamfgR_pJlXtbnSG91hl-5twSQ"/><div class="flex flex-col"><div class="flex items-center gap-space-xs"><span class="font-headline-md text-headline-md font-bold text-primary tracking-tight">TournéeVéto</span><span class="font-label-sm text-label-sm uppercase bg-surface-container px-space-xs py-0.5 rounded text-on-surface-variant">v1.4</span></div><span class="font-label-md text-label-md text-on-surface-variant">Dre Marie Tremblay • Clinique Ambulatoire</span></div></div><div class="flex items-center gap-space-sm"><div class="flex items-center gap-space-xs px-space-sm py-1.5 rounded bg-surface-container border border-outline-variant"><span class="material-symbols-outlined text-primary text-[18px]">cloud_done</span><div class="flex flex-col"><span class="font-label-sm text-label-sm text-primary leading-none">En ligne</span><span class="font-label-sm text-[11px] text-on-surface-variant leading-tight">Synchro active</span></div></div><div class="flex items-center gap-space-xs px-space-sm py-1.5 rounded bg-surface-container-low border border-outline-variant"><span class="material-symbols-outlined text-on-surface-variant text-[18px]">database</span><div class="flex flex-col"><span class="font-label-sm text-label-sm text-on-surface leading-none">IndexedDB</span><span class="font-label-sm text-[11px] text-on-surface-variant leading-tight">Stocké localement</span></div></div><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div><nav class="w-full px-gutter-desktop bg-surface-container-low overflow-x-auto flex items-center gap-space-xs py-space-xs" data-active-classes="bg-primary-container text-on-primary font-bold border-primary-container"><a class="flex-shrink-0 min-h-[44px] flex items-center px-space-md py-space-xs rounded text-on-surface-variant font-label-md text-label-md border border-outline-variant hover:bg-surface-container hover:text-on-surface transition-colors" data-path="tournee-du-jour" href="#">1. Tournée du jour</a><a class="flex-shrink-0 min-h-[44px] flex items-center px-space-md py-space-xs rounded text-on-surface-variant font-label-md text-label-md border border-outline-variant hover:bg-surface-container hover:text-on-surface transition-colors" data-path="fiche-elevage" href="#">2. Fiche élevage</a><a class="flex-shrink-0 min-h-[44px] flex items-center px-space-md py-space-xs rounded text-on-surface-variant font-label-md text-label-md border border-outline-variant hover:bg-surface-container hover:text-on-surface transition-colors" data-path="grille-de-regie" href="#">3. Grille de régie</a><a class="flex-shrink-0 min-h-[44px] flex items-center px-space-md py-space-xs rounded text-on-surface-variant font-label-md text-label-md border border-outline-variant hover:bg-surface-container hover:text-on-surface transition-colors" data-path="biosecurite" href="#">4. Biosécurité</a><a class="flex-shrink-0 min-h-[44px] flex items-center px-space-md py-space-xs rounded text-on-surface-variant font-label-md text-label-md border border-outline-variant hover:bg-surface-container hover:text-on-surface transition-colors" data-path="rapport-de-visite" href="#">5. Rapport de visite</a><a aria-current="page" class="flex-shrink-0 min-h-[44px] flex items-center px-space-md py-space-xs rounded transition-colors bg-primary-container text-on-primary font-bold border-primary-container" data-path="version-imprimable" href="#">6. Version imprimable</a></nav></header><main class="w-full pt-[148px] flex-1 bg-background"><div class="flex flex-col w-full">
+<div class="w-full flex justify-center py-space-lg px-gutter">
+<div class="w-full max-w-[850px] flex flex-col gap-space-xl">
+<!-- ==================== FEUILLE 1 / PAGE 1 ==================== -->
+<article class="w-full bg-surface-container-lowest text-on-surface shadow-xl p-[20mm] flex flex-col justify-between min-h-[1120px] relative">
+<div class="flex flex-col w-full">
+<!-- Entête officiel de visite ambulatoire -->
+<header class="w-full pb-space-md bg-surface-container-lowest">
+<div class="w-full flex items-start justify-between gap-gutter pb-space-sm">
+<div class="flex flex-col">
+<div class="flex items-center gap-space-xs pb-space-xs">
+<span class="font-cow-tag-display text-cow-tag-display font-bold text-on-surface tracking-tighter">TOURNÉEVÉTO</span>
+<span class="font-label-sm text-label-sm uppercase px-1 bg-surface-container-high text-on-surface">DOCUMENT D'ARCHIVE CLINIQUEMENT CONFORME</span>
+</div>
+<h1 class="font-headline-lg text-headline-lg font-bold text-on-surface tracking-tight uppercase">
+                  RAPPORT DE VISITE VÉTÉRINAIRE EN PRODUCTION LAITIÈRE
+                </h1>
+<p class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">
+                  Clinique Vétérinaire Ambulatoire du Richelieu • Pratique Grands Animaux
+                </p>
+</div>
+<div class="text-right flex flex-col items-end">
+<span class="font-label-sm text-label-sm font-bold text-on-surface uppercase">RÉFÉRENCE DOSSIER</span>
+<span class="font-cow-tag-inline text-cow-tag-inline text-on-surface">VIS-2024-1015-08</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Régie Laitière Valacta #45091</span>
+</div>
+</div>
+<!-- Fiche signalétique Exploitation & Praticien -->
+<div class="w-full grid grid-cols-1 md:grid-cols-2 gap-space-md p-space-md bg-surface-container-low mt-space-sm">
+<div class="flex flex-col gap-0.5">
+<span class="font-label-sm text-label-sm uppercase font-bold text-on-surface">EXPLOITATION / SITE D'INTERVENTION</span>
+<span class="font-body-lg-bold text-body-lg-bold text-on-surface">Ferme des Prés-Clairs</span>
+<span class="font-body-md text-body-md text-on-surface">Producteur désigné : <strong>Luc Gagnon</strong></span>
+<span class="font-label-md text-label-md text-on-surface-variant">1420, Rang Saint-Amable, Saint-Hyacinthe (QC) J2T 1K9</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Quota mensuel : 72 kg MG/j • Troupeau Holstein Canadien</span>
+</div>
+<div class="flex flex-col gap-0.5">
+<span class="font-label-sm text-label-sm uppercase font-bold text-on-surface">INTERVENANT AMBULATOIRE</span>
+<span class="font-body-lg-bold text-body-lg-bold text-on-surface">Dre Marie Tremblay, m.v.</span>
+<span class="font-body-md text-body-md text-on-surface">Ordre des médecins vétérinaires du Québec : <strong>OMVQ #8742</strong></span>
+<span class="font-label-md text-label-md text-on-surface">Date d'examen : <strong>15 octobre 2024</strong> (08:30 - 10:15)</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Véhicule unité mobile #3 • Équipement échographique Easi-Scan Curve</span>
+</div>
+</div>
+<!-- Mention légale obligatoire -->
+<div class="w-full bg-surface-container-high px-space-sm py-space-xs mt-space-xs text-center">
+<p class="font-label-sm text-label-sm uppercase text-on-surface-variant tracking-tight">
+                [!] DÉMONSTRATION — DONNÉES FICTIVES. RÈGLES SIMPLIFIÉES, SANS VALEUR DE PRESCRIPTION NI DE REGISTRE OFFICIEL.
+              </p>
+</div>
+</header>
+<!-- 1. RÉSUMÉ DE LA VISITE -->
+<section class="w-full mt-space-md flex flex-col gap-space-xs">
+<div class="w-full flex items-center justify-between pb-1 bg-surface-container-low px-space-sm py-space-xs">
+<h2 class="font-body-lg-bold text-body-lg-bold uppercase tracking-tight text-on-surface">
+                1. RÉSUMÉ DE LA VISITE &amp; SYNTHÈSE CLIQUE
+              </h2>
+<span class="font-label-sm text-label-sm text-on-surface-variant">SYNTHÈSE EXÉCUTIVE</span>
+</div>
+<!-- Grille métrique monochrome -->
+<div class="grid grid-cols-4 gap-space-xs my-space-xs">
+<div class="bg-surface-container-low p-space-sm text-center">
+<span class="font-label-sm text-label-sm block uppercase text-on-surface-variant">Animaux examinés</span>
+<span class="font-cow-tag-display text-cow-tag-display font-bold text-on-surface">14</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant block">Sur 86 têtes lactantes</span>
+</div>
+<div class="bg-surface-container-low p-space-sm text-center">
+<span class="font-label-sm text-label-sm block uppercase text-on-surface-variant">Diagnostics de Gestation</span>
+<span class="font-cow-tag-display text-cow-tag-display font-bold text-on-surface">06</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant block">5 Positifs / 1 Négatif</span>
+</div>
+<div class="bg-surface-container-low p-space-sm text-center">
+<span class="font-label-sm text-label-sm block uppercase text-on-surface-variant">Soins Métaboliques &amp; Plaies</span>
+<span class="font-cow-tag-display text-cow-tag-display font-bold text-on-surface">05</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant block">Pédicurie &amp; Susp. Cétonémie</span>
+</div>
+<div class="bg-surface-container-low p-space-sm text-center">
+<span class="font-label-sm text-label-sm block uppercase text-on-surface-variant">Prélèvements Labo</span>
+<span class="font-cow-tag-display text-cow-tag-display font-bold text-on-surface">03</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant block">Lait quart / Antibiogramme</span>
+</div>
+</div>
+<!-- Synthèse narrative clinique -->
+<div class="p-space-md bg-surface-container-lowest bg-surface-container-low">
+<p class="font-body-md text-body-md text-on-surface leading-relaxed text-justify">
+<strong>Synthèse de l'état sanitaire du cheptel :</strong> Visite mensuelle de reproduction et de santé de troupeau programmée. Bonne progression globale sur le taux de gestation au premier saut (83% sur le lot présenté). Aucun trouble digestif aigu ni déplacement de caillette diagnostiqué ce jour. Une vigilance prioritaire s'impose concernant le quartier arrière-gauche de la vache #1087 (suspicion mammite clinique grade 2) dont l'échantillon aseptique est acheminé au laboratoire pour culture et antibiogramme ciblé. La qualité de litière en logettes sèches montre un taux d'humidité résiduel satisfaisant malgré la baisse des températures nocturnes.
+              </p>
+</div>
+</section>
+<!-- 2. ACTIONS RÉALISÉES LORS DE LA VISITE (Partie 1 sur Page 1) -->
+<section class="w-full mt-space-md flex flex-col gap-space-xs">
+<div class="w-full flex items-center justify-between pb-1 bg-surface-container-low px-space-sm py-space-xs">
+<h2 class="font-body-lg-bold text-body-lg-bold uppercase tracking-tight text-on-surface">
+                2. ACTIONS RÉALISÉES LORS DE LA VISITE (ACTES &amp; OBSERVATIONS)
+              </h2>
+<span class="font-label-sm text-label-sm text-on-surface-variant">REGISTRE DES INTERVENTIONS DIRECTES</span>
+</div>
+<!-- Table d'actes monochromes stricts -->
+<div class="w-full overflow-hidden bg-surface-container-lowest">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container text-on-surface">
+<th class="p-space-sm font-label-sm text-label-sm uppercase tracking-wider w-1/4">IDENTIFIANT BOVIN</th>
+<th class="p-space-sm font-label-sm text-label-sm uppercase tracking-wider w-1/4">CATÉGORIE &amp; ACTE</th>
+<th class="p-space-sm font-label-sm text-label-sm uppercase tracking-wider w-1/2">OBSERVATIONS &amp; CONSTATATIONS DÉTAILLÉES</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-surface-container-high">
+<tr class="bg-surface-container-lowest">
+<td class="p-space-sm align-top">
+<span class="font-cow-tag-inline text-cow-tag-inline text-on-surface block font-bold">#1042</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">CA 10 248 9104 2</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant block">Lactation 3 • Jours en lait: 42</span>
+</td>
+<td class="p-space-sm align-top">
+<span class="font-body-lg-bold text-body-lg-bold text-on-surface block">Reproduction</span>
+<span class="font-label-md text-label-md text-on-surface">Échographie transrectale</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase block mt-1 font-bold">[RÉSULTAT : G+ POSITIF]</span>
+</td>
+<td class="p-space-sm align-top font-body-md text-body-md text-on-surface">
+                      Vésicule embryonnaire viable visualisée dans la corne utérine droite. Battements cardiaques distincts constatés au mode B. Corps jaune fonctionnel régulier de 24 mm sur ovaire ipsilatéral. Tonus utérin ferme. Terme estimé à 35 jours post-insémination artificielle. Prévoir maintien du régime de transition.
+                    </td>
+</tr>
+<tr class="bg-surface-container-low">
+<td class="p-space-sm align-top">
+<span class="font-cow-tag-inline text-cow-tag-inline text-on-surface block font-bold">#1087</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">CA 10 294 1087 0</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant block">Lactation 2 • Jours en lait: 118</span>
+</td>
+<td class="p-space-sm align-top">
+<span class="font-body-lg-bold text-body-lg-bold text-on-surface block">Santé Mammaire</span>
+<span class="font-label-md text-label-md text-on-surface">Examen clinique + Ponction aseptique</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase block mt-1 font-bold">[SUSPICION CLINIQUE GRADE 2]</span>
+</td>
+<td class="p-space-sm align-top font-body-md text-body-md text-on-surface">
+                      Quartier arrière-gauche (AG) hypertrophié, chaud et induré à la palpation. Sécrétion d'un lait jaunâtre grumeleux sans atteinte de l'état général (T° rectale : 38,7°C, appétit maintenu). Échantillon stérile prélevé pour culture et antibiogramme immédiat. Traitement d'attente initié selon protocole standard sans délai.
+                    </td>
+</tr>
+<tr class="bg-surface-container-lowest">
+<td class="p-space-sm align-top">
+<span class="font-cow-tag-inline text-cow-tag-inline text-on-surface block font-bold">#1102</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">CA 10 315 1102 8</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant block">Lactation 1 (Primipare) • JEL: 18</span>
+</td>
+<td class="p-space-sm align-top">
+<span class="font-body-lg-bold text-body-lg-bold text-on-surface block">Métabolisme &amp; Locomotion</span>
+<span class="font-label-md text-label-md text-on-surface">Parage curatif postérieur droit</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase block mt-1 font-bold">[LÉSION SOUS-SOLÉAIRE ÉPULÉ]</span>
+</td>
+<td class="p-space-sm align-top font-body-md text-body-md text-on-surface">
+                      Boiterie grade 2/5 membre postérieur droit. Décollement circum-soléaire superficiel en pince sans atteinte du chorion profond. Amincissement de la corne circonscrite, désinfection iodée et pose d'une talonnette bois collée sur l'onglon sain externe afin de décharger l'onglon lésé. Contrôle locomoteur à J+10.
+                    </td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+</div>
+<!-- Pied de page officiel Page 1 -->
+<footer class="w-full pt-space-md mt-space-lg flex items-end justify-between bg-surface-container-lowest">
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase">TournéeVéto Ambulatoire • Clinique de Saint-Hyacinthe</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Rapport officiel généré hors ligne • Certification d'examen clinique</span>
+</div>
+<div class="text-right flex flex-col items-end">
+<span class="font-label-sm text-label-sm font-bold text-on-surface uppercase">PAGE 1 SUR 2</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Suite au verso (Section 3 &amp; 4)</span>
+</div>
+</footer>
+</article>
+<!-- ==================== FEUILLE 2 / PAGE 2 ==================== -->
+<article class="w-full bg-surface-container-lowest text-on-surface shadow-xl p-[20mm] flex flex-col justify-between min-h-[1120px] relative">
+<div class="flex flex-col w-full">
+<!-- Entête rappel discret Page 2 -->
+<header class="w-full pb-space-xs bg-surface-container-lowest flex items-center justify-between">
+<div class="flex items-center gap-space-sm">
+<span class="font-label-sm text-label-sm font-bold text-on-surface uppercase">RAPPORT DE VISITE DU 15/10/2024</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">• Ferme des Prés-Clairs (Luc Gagnon)</span>
+</div>
+<div class="text-right">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase">RÉFÉRENCE : VIS-2024-1015-08</span>
+</div>
+</header>
+<!-- 3. ACTIONS À VENIR & ÉCHÉANCES POUR L'ÉLEVEUR -->
+<section class="w-full mt-space-md flex flex-col gap-space-xs">
+<div class="w-full flex items-center justify-between pb-1 bg-surface-container-low px-space-sm py-space-xs">
+<h2 class="font-body-lg-bold text-body-lg-bold uppercase tracking-tight text-on-surface">
+                3. ACTIONS À VENIR &amp; ÉCHÉANCES POUR L'ÉLEVEUR
+              </h2>
+<span class="font-label-sm text-label-sm text-on-surface-variant">CALENDRIER OPÉRATIONNEL DE SURVEILLANCE</span>
+</div>
+<!-- Liste structurée des protocoles différés -->
+<div class="w-full flex flex-col gap-space-xs my-space-xs">
+<!-- Item 1 -->
+<div class="p-space-md bg-surface-container-low flex flex-col md:flex-row md:items-start justify-between gap-space-sm">
+<div class="flex items-start gap-space-sm">
+<span class="font-cow-tag-inline text-cow-tag-inline font-bold px-space-xs py-0.5 bg-surface-container-highest text-on-surface">
+                    #1055
+                  </span>
+<div class="flex flex-col">
+<span class="font-body-lg-bold text-body-lg-bold text-on-surface">Surveillance Vêlage Imminent &amp; Transition</span>
+<span class="font-body-md text-body-md text-on-surface mt-0.5">
+                      Pré-vêlage prévu pour la dernière semaine d'octobre (26-28 oct). Transfert requis en stalle de maternité propre et paillée 48h avant le terme. Surveillance étroite des signes de début de travail et administration préventive du bolus de calcium oral dès la délivrance pour multipare à antécédent d'hypocalcémie.
+                    </span>
+<span class="font-label-sm text-label-sm text-on-surface-variant mt-1">
+                      Statut protocole : <strong>[X] PLANIFIÉ PAR L'ÉLEVEUR</strong> • Responsable : Luc Gagnon
+                    </span>
+</div>
+</div>
+<div class="md:text-right shrink-0">
+<span class="font-label-sm text-label-sm font-bold text-on-surface uppercase block">ÉCHÉANCE FIXÉE</span>
+<span class="font-label-md text-label-md font-bold text-on-surface">26 - 31 OCT 2024</span>
+</div>
+</div>
+<!-- Item 2 -->
+<div class="p-space-md bg-surface-container-low flex flex-col md:flex-row md:items-start justify-between gap-space-sm">
+<div class="flex items-start gap-space-sm">
+<span class="font-cow-tag-inline text-cow-tag-inline font-bold px-space-xs py-0.5 bg-surface-container-highest text-on-surface">
+                    #1120
+                  </span>
+<div class="flex flex-col">
+<span class="font-body-lg-bold text-body-lg-bold text-on-surface">Confirmation Diagnostic de Gestation (DG)</span>
+<span class="font-body-md text-body-md text-on-surface mt-0.5">
+                      Insémination artificielle constatée à J+29 ce jour. Palpation non conclusive ce matin (asymétrie cornes sans fluctuation formelle). Réévaluation échographique formelle requise au passage de la prochaine visite mensuelle de régie pour confirmation définitive de gestation ou ré-insémination au retour en chaleurs.
+                    </span>
+<span class="font-label-sm text-label-sm text-on-surface-variant mt-1">
+                      Statut protocole : <strong>[X] PROGRAMMÉ VISITE SUIVANTE</strong> • Responsable : Dre Marie Tremblay
+                    </span>
+</div>
+</div>
+<div class="md:text-right shrink-0">
+<span class="font-label-sm text-label-sm font-bold text-on-surface uppercase block">ÉCHÉANCE FIXÉE</span>
+<span class="font-label-md text-label-md font-bold text-on-surface">12 NOV 2024</span>
+</div>
+</div>
+<!-- Item 3 -->
+<div class="p-space-md bg-surface-container-low flex flex-col md:flex-row md:items-start justify-between gap-space-sm">
+<div class="flex items-start gap-space-sm">
+<span class="font-cow-tag-inline text-cow-tag-inline font-bold px-space-xs py-0.5 bg-surface-container-highest text-on-surface">
+                    #1087
+                  </span>
+<div class="flex flex-col">
+<span class="font-body-lg-bold text-body-lg-bold text-on-surface">Attente Résultats d'Analyse Antibiogramme</span>
+<span class="font-body-md text-body-md text-on-surface mt-0.5">
+                      Prélèvement bactériologique acheminé au laboratoire Biovet. Communication téléphonique des sensibilités phénotypiques sous 48h. Ajustement éventuel de la molécule d'antibiothérapie selon le rapport. Maintien strict du lait hors cuve collective jusqu'à confirmation d'absence de résidus et guérison clinique.
+                    </span>
+<span class="font-label-sm text-label-sm text-on-surface-variant mt-1">
+                      Statut protocole : <strong>[X] EN ATTENTE RETOUR LABO</strong> • Responsable : Dre Marie Tremblay / Labo
+                    </span>
+</div>
+</div>
+<div class="md:text-right shrink-0">
+<span class="font-label-sm text-label-sm font-bold text-on-surface uppercase block">ÉCHÉANCE FIXÉE</span>
+<span class="font-label-md text-label-md font-bold text-on-surface">17 OCT 2024 (17H00)</span>
+</div>
+</div>
+</div>
+</section>
+<!-- 4. BILAN DE BIOSÉCURITÉ -->
+<section class="w-full mt-space-md flex flex-col gap-space-xs">
+<div class="w-full flex items-center justify-between pb-1 bg-surface-container-low px-space-sm py-space-xs">
+<h2 class="font-body-lg-bold text-body-lg-bold uppercase tracking-tight text-on-surface">
+                4. BILAN DE BIOSÉCURITÉ &amp; SANTÉ ENVIRONNEMENTALE
+              </h2>
+<span class="font-label-sm text-label-sm text-on-surface-variant">AUDIT DE TERRAIN CONFORME AUX BONNES PRATIQUES</span>
+</div>
+<div class="w-full overflow-hidden bg-surface-container-lowest my-space-xs">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container text-on-surface">
+<th class="p-space-sm font-label-sm text-label-sm uppercase tracking-wider w-1/4">ITEM D'AUDIT</th>
+<th class="p-space-sm font-label-sm text-label-sm uppercase tracking-wider w-1/4">STATUT EXPLICITE</th>
+<th class="p-space-sm font-label-sm text-label-sm uppercase tracking-wider w-1/2">NOTES D'ÉVALUATION ET RECOMMANDATIONS</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-surface-container-high">
+<tr class="bg-surface-container-lowest">
+<td class="p-space-sm align-top font-body-lg-bold text-body-lg-bold text-on-surface">
+                      1. Sas sanitaire &amp; vestiaire
+                    </td>
+<td class="p-space-sm align-top">
+<span class="font-label-sm text-label-sm font-bold text-on-surface uppercase block">[X] CONFORME</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Bottes de rechange &amp; désinfection</span>
+</td>
+<td class="p-space-sm align-top font-body-md text-body-md text-on-surface">
+                      Bac de pédiluve approvisionné en solution iodée active fraîche. Registre des visiteurs externe correctement renseigné à l'entrée de l'étable.
+                    </td>
+</tr>
+<tr class="bg-surface-container-low">
+<td class="p-space-sm align-top font-body-lg-bold text-body-lg-bold text-on-surface">
+                      2. Aire de vêlage &amp; isolement
+                    </td>
+<td class="p-space-sm align-top">
+<span class="font-label-sm text-label-sm font-bold text-on-surface uppercase block">[X] CONFORME</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Curage &amp; chaulage à jour</span>
+</td>
+<td class="p-space-sm align-top font-body-md text-body-md text-on-surface">
+                      Box individuel vide curé, désinfecté et rechargé d'une litière de paille de blé hachée sèche. Absence d'animaux malades dans l'aire réservée aux parturientes.
+                    </td>
+</tr>
+<tr class="bg-surface-container-lowest">
+<td class="p-space-sm align-top font-body-lg-bold text-body-lg-bold text-on-surface">
+                      3. Hygiène de traite &amp; manchons
+                    </td>
+<td class="p-space-sm align-top">
+<span class="font-label-sm text-label-sm font-bold text-on-surface uppercase block">[!] NON CONFORME</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Action corrective immédiate</span>
+</td>
+<td class="p-space-sm align-top font-body-md text-body-md text-on-surface">
+                      Gobelets de pré-trempage souillés observés au poste 4 de la salle de traite rotative. Rinçage des manchons à l'eau mitigée à revoir. Nettoyage complet exigé avant la traite du soir.
+                    </td>
+</tr>
+<tr class="bg-surface-container-low">
+<td class="p-space-sm align-top font-body-lg-bold text-body-lg-bold text-on-surface">
+                      4. Stockage médicamenteux
+                    </td>
+<td class="p-space-sm align-top">
+<span class="font-label-sm text-label-sm font-bold text-on-surface uppercase block">[X] CONFORME</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Armoire verrouillée &amp; frigo régulé</span>
+</td>
+<td class="p-space-sm align-top font-body-md text-body-md text-on-surface">
+                      Armoire à pharmacie sous clé fermée. Réfrigérateur biologique vérifié à +4,2°C. Absence de produits périmés ou de flacons entamés non datés.
+                    </td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<!-- Zone d'émargement et signatures officielles -->
+<section class="w-full mt-space-lg p-space-md bg-surface-container-low">
+<span class="font-label-sm text-label-sm font-bold text-on-surface uppercase block mb-space-sm text-center">
+              VALIDATION CONTRADICTOIRE DU RAPPORT D'EXAMEN
+            </span>
+<div class="grid grid-cols-2 gap-space-lg">
+<!-- Emplacement Signature Vétérinaire -->
+<div class="flex flex-col justify-between h-36 p-space-sm bg-surface-container-lowest">
+<div>
+<span class="font-label-sm text-label-sm font-bold text-on-surface uppercase block">
+                    POUR LA CLINIQUE VÉTÉRINAIRE :
+                  </span>
+<span class="font-body-md text-body-md text-on-surface block mt-0.5">
+                    Dre Marie Tremblay, m.v. (OMVQ #8742)
+                  </span>
+</div>
+<div class="w-full flex items-end justify-between">
+<span class="font-label-sm text-label-sm text-on-surface-variant italic">Signature &amp; sceau professionnel :</span>
+<span class="font-cow-tag-inline text-cow-tag-inline text-on-surface-variant">[ Tremblay, m.v. ]</span>
+</div>
+</div>
+<!-- Emplacement Émargement Exploitant -->
+<div class="flex flex-col justify-between h-36 p-space-sm bg-surface-container-lowest">
+<div>
+<span class="font-label-sm text-label-sm font-bold text-on-surface uppercase block">
+                    POUR L'ÉLEVAGE DES PRÉS-CLAIRS :
+                  </span>
+<span class="font-body-md text-body-md text-on-surface block mt-0.5">
+                    M. Luc Gagnon, exploitant responsable
+                  </span>
+</div>
+<div class="w-full flex items-end justify-between">
+<span class="font-label-sm text-label-sm text-on-surface-variant italic">Émargement / Lu et approuvé :</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">[ Date : 15 / 10 / 2024 ]</span>
+</div>
+</div>
+</div>
+</section>
+</div>
+<!-- Pied de page officiel Page 2 avec horodatage strict -->
+<footer class="w-full pt-space-md mt-space-lg flex items-end justify-between bg-surface-container-lowest">
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface font-bold uppercase">
+              GÉNÉRÉ HORS LIGNE LE 15/10/2024 À 10:15 - APPAREIL DE TERRAIN
+            </span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">
+              Empreinte cryptographique locale SHA-256: 4b9f8d1c7e2a9012c8b0e • Base IndexedDB synchronisée
+            </span>
+</div>
+<div class="text-right flex flex-col items-end">
+<span class="font-label-sm text-label-sm font-bold text-on-surface uppercase">PAGE 2 SUR 2</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">FIN DU RAPPORT OFFICIEL</span>
+</div>
+</footer>
+</article>
+</div>
+</div>
+</div></main><footer class="w-full bg-surface-container-low border-t border-outline-variant py-space-md mt-auto"><div class="w-full px-gutter-desktop flex flex-col md:flex-row items-center justify-between gap-space-sm"><div class="flex items-center gap-space-sm font-label-sm text-label-sm text-on-surface-variant"><span class="material-symbols-outlined text-[16px] text-primary">verified_user</span><span>TournéeVéto — Application praticien terrain (Mode hors-ligne garanti)</span></div><div class="font-label-sm text-label-sm text-on-surface-variant">© 2025 TournéeVéto • Dre Marie Tremblay</div></div></footer></body></html>

@@ -1,0 +1,134 @@
+@using TourneeVeto.Domain.Visits
+
+<article class="cow-card @UrgencyClass" aria-labelledby="@TitleId">
+    <div class="cow-card__identity">
+        <span class="cow-card__caption">Identifiant</span>
+        <strong class="cow-card__identifier">#@Identifier</strong>
+        @if (!string.IsNullOrWhiteSpace(EarTag))
+        {
+            <span class="cow-card__ear-tag">Bague : @EarTag</span>
+        }
+    </div>
+
+    <div class="cow-card__detail">
+        <div class="cow-card__badges">
+            <span class="cow-card__category">@ActionTypeLabel</span>
+            <span class="cow-card__urgency">@UrgencyLabel</span>
+            @if (!string.IsNullOrWhiteSpace(Protocol))
+            {
+                <span class="cow-card__protocol">@Protocol</span>
+            }
+        </div>
+        <h3 id="@TitleId" class="cow-card__title">@ActionTitle</h3>
+        <label class="cow-card__note-label" for="@NoteId">Note d’observation pour la vache #@Identifier</label>
+        <textarea id="@NoteId" class="cow-card__note" rows="3"
+                  placeholder="Saisir l’observation médicale…"
+                  readonly="@(Disabled || !NoteChanged.HasDelegate)"
+                  value="@Note" @oninput="ChangeNoteAsync"></textarea>
+    </div>
+
+    <div class="cow-card__action">
+        <button type="button" class="cow-card__toggle"
+                aria-label="@($"Action réalisée pour la vache #{Identifier}")"
+                aria-pressed="@(IsCompleted ? "true" : "false")"
+                disabled="@(Disabled || !IsCompletedChanged.HasDelegate)"
+                @onclick="ToggleCompletedAsync">
+            <span aria-hidden="true">@(IsCompleted ? "☑" : "☐")</span>
+            <span>@(IsCompleted ? "Réalisée" : "À faire")</span>
+        </button>
+        @if (!Disabled && IsCompletedChanged.HasDelegate)
+        {
+            <span class="cow-card__hint">Toucher pour basculer</span>
+        }
+    </div>
+</article>
+
+@code {
+    private readonly string _id = $"cow-card-{Guid.NewGuid():N}";
+    private string TitleId => $"{_id}-title";
+    private string NoteId => $"{_id}-note";
+
+    [Parameter, EditorRequired]
+    public string Identifier { get; set; } = string.Empty;
+
+    [Parameter, EditorRequired]
+    public string ActionTitle { get; set; } = string.Empty;
+
+    [Parameter, EditorRequired]
+    public ActionType ActionType { get; set; }
+
+    [Parameter, EditorRequired]
+    public Urgency Urgency { get; set; }
+
+    [Parameter]
+    public string? EarTag { get; set; }
+
+    [Parameter]
+    public string? Protocol { get; set; }
+
+    [Parameter]
+    public string Note { get; set; } = string.Empty;
+
+    [Parameter]
+    public EventCallback<string> NoteChanged { get; set; }
+
+    [Parameter]
+    public bool IsCompleted { get; set; }
+
+    [Parameter]
+    public EventCallback<bool> IsCompletedChanged { get; set; }
+
+    [Parameter]
+    public bool Disabled { get; set; }
+
+    private string ActionTypeLabel => ActionType switch
+    {
+        ActionType.PregnancyDiagnosis => "Diagnostic de gestation",
+        ActionType.HighSomaticCellCount => "CCS élevée",
+        ActionType.DryOff => "Tarissement",
+        ActionType.Calving => "Vêlage",
+        ActionType.Insemination => "Insémination",
+        _ => throw new ArgumentOutOfRangeException(nameof(ActionType))
+    };
+
+    private string UrgencyLabel => Urgency switch
+    {
+        Urgency.Routine => "Suivi courant",
+        Urgency.Warning => "À surveiller",
+        Urgency.Urgent => "Urgent",
+        _ => throw new ArgumentOutOfRangeException(nameof(Urgency))
+    };
+
+    private string UrgencyClass => Urgency switch
+    {
+        Urgency.Routine => "cow-card--routine",
+        Urgency.Warning => "cow-card--warning",
+        Urgency.Urgent => "cow-card--urgent",
+        _ => throw new ArgumentOutOfRangeException(nameof(Urgency))
+    };
+
+    protected override void OnParametersSet()
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(Identifier);
+        ArgumentException.ThrowIfNullOrWhiteSpace(ActionTitle);
+        if (!Enum.IsDefined(ActionType))
+        {
+            throw new ArgumentOutOfRangeException(nameof(ActionType));
+        }
+
+        if (!Enum.IsDefined(Urgency))
+        {
+            throw new ArgumentOutOfRangeException(nameof(Urgency));
+        }
+    }
+
+    private Task ToggleCompletedAsync() =>
+        Disabled || !IsCompletedChanged.HasDelegate
+            ? Task.CompletedTask
+            : IsCompletedChanged.InvokeAsync(!IsCompleted);
+
+    private Task ChangeNoteAsync(ChangeEventArgs args) =>
+        Disabled || !NoteChanged.HasDelegate
+            ? Task.CompletedTask
+            : NoteChanged.InvokeAsync(args.Value?.ToString() ?? string.Empty);
+}

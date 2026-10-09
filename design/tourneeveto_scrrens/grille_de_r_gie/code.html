@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+
+<html lang="fr"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_standard" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@600;700&amp;family=Work+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{colors:{"inverse-primary":"#96d5a3","outline":"#717970","on-error":"#ffffff","on-tertiary-fixed-variant":"#93000b","primary":"#003b1b","on-error-container":"#93000a","on-surface-variant":"#404941","on-primary-container":"#87c695","tertiary-fixed":"#ffdad6","secondary-container":"#fd925b","surface-container":"#e5f1e7","tertiary":"#6b0005","inverse-surface":"#28332c","surface-container-low":"#ebf7ed","on-secondary-container":"#712c00","surface-variant":"#dae5dc","primary-fixed-dim":"#96d5a3","surface-container-highest":"#dae5dc","surface":"#f1fcf2","tertiary-fixed-dim":"#ffb4ab","primary-fixed":"#b1f2be","on-primary-fixed":"#00210d","background":"#f1fcf2","surface-container-high":"#e0ebe1","on-secondary-fixed-variant":"#7a3000","surface-bright":"#f1fcf2","on-primary":"#ffffff","on-secondary":"#ffffff","primary-container":"#14532d","surface-container-lowest":"#ffffff","on-secondary-fixed":"#341000","error":"#ba1a1a","on-tertiary-fixed":"#410002","on-background":"#141e18","secondary":"#9a4614","tertiary-container":"#96000b","on-tertiary-container":"#ff9d92","secondary-fixed":"#ffdbcb","surface-dim":"#d1ddd3","on-surface":"#141e18","outline-variant":"#c0c9be","on-tertiary":"#ffffff","error-container":"#ffdad6","on-primary-fixed-variant":"#12512c","inverse-on-surface":"#e8f4ea","secondary-fixed-dim":"#ffb693","surface-tint":"#2e6a41"},borderRadius:{"DEFAULT":"0.125rem","lg":"0.25rem","xl":"0.5rem","full":"0.75rem"},spacing:{"margin":"1rem","gutter-tablet":"1.25rem","gutter":"1rem","margin-desktop":"2rem","space-lg":"1.75rem","space-sm":"0.75rem","gutter-desktop":"1.5rem","space-md":"1.25rem","space-xl":"2.5rem","margin-tablet":"1.5rem","space-xs":"0.375rem"},fontFamily:{"label-sm":["JetBrains Mono"],"cow-tag-inline":["JetBrains Mono"],"cow-tag-display":["JetBrains Mono"],"body-lg":["Work Sans"],"headline-md":["Work Sans"],"headline-xl-mobile":["Work Sans"],"headline-xl":["Work Sans"],"label-md":["Work Sans"],"body-lg-bold":["Work Sans"],"body-md":["Work Sans"],"headline-lg":["Work Sans"]},fontSize:{"label-sm":["13px",{"lineHeight":"16px","fontWeight":"600"}],"cow-tag-inline":["18px",{"lineHeight":"22px","fontWeight":"700"}],"cow-tag-display":["28px",{"lineHeight":"32px","fontWeight":"700"}],"body-lg":["18px",{"lineHeight":"26px","fontWeight":"400"}],"headline-md":["20px",{"lineHeight":"28px","fontWeight":"600"}],"headline-xl-mobile":["26px",{"lineHeight":"34px","fontWeight":"700"}],"headline-xl":["32px",{"lineHeight":"40px","fontWeight":"700"}],"label-md":["16px",{"lineHeight":"20px","fontWeight":"500"}],"body-lg-bold":["18px",{"lineHeight":"26px","fontWeight":"600"}],"body-md":["16px",{"lineHeight":"24px","fontWeight":"400"}],"headline-lg":["24px",{"lineHeight":"32px","fontWeight":"600"}]}}}}</script></head><body class="bg-background font-body-md text-on-surface antialiased min-h-screen flex flex-col"><header class="fixed top-0 left-0 right-0 z-50 bg-surface-container-lowest border-b border-outline-variant shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="bg-surface-container-high px-gutter-desktop py-space-xs border-b border-outline-variant"><div class="w-full flex items-center justify-between gap-gutter"><div class="flex items-center gap-space-xs text-on-surface-variant font-label-sm text-label-sm"><span class="material-symbols-outlined text-[16px] text-secondary">info</span><span>Démonstration — données fictives. Règles simplifiées, sans valeur de prescription ni de registre officiel.</span></div><div class="hidden md:flex items-center gap-space-sm font-label-sm text-label-sm text-on-surface-variant"><span class="inline-block w-2 h-2 rounded-full bg-primary"></span><span>PWA Blazor WebAssembly Terrain</span></div></div></div><div class="h-16 w-full px-gutter-desktop flex items-center justify-between gap-gutter border-b border-outline-variant"><div class="flex items-center gap-space-md"><img alt="Logo TournéeVéto" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBS-jhFyRg2uDm2zFbuOZO0oLYdwrB4WZJwi3LYUXaZIR-CR2feLDP3HmIHcGQZkQyR5Cspausw7sEO8tY912c5j67ob__VmqX8cwCHxo-n8AHjKzvH7yQarq3hUr3fNZ9A7s3uhtGZtfULgMEhaV7ajBXG4X9YpDG8KlA3fU7pPlsjVT905s6lEKC1O2mwJYRzSvY7Qi3nX4ps57Qc0ymu7M606lHziEwooBnci5m-iqjx1B9Xig3RFQ"/><div class="flex flex-col"><div class="flex items-center gap-space-xs"><span class="font-headline-md text-headline-md font-bold text-primary tracking-tight">TournéeVéto</span><span class="font-label-sm text-label-sm uppercase bg-surface-container px-space-xs py-0.5 rounded text-on-surface-variant">v1.4</span></div><span class="font-label-md text-label-md text-on-surface-variant">Dre Marie Tremblay • Clinique Ambulatoire</span></div></div><div class="flex items-center gap-space-sm"><div class="flex items-center gap-space-xs px-space-sm py-1.5 rounded bg-surface-container border border-outline-variant"><span class="material-symbols-outlined text-primary text-[18px]">cloud_done</span><div class="flex flex-col"><span class="font-label-sm text-label-sm text-primary leading-none">En ligne</span><span class="font-label-sm text-[11px] text-on-surface-variant leading-tight">Synchro active</span></div></div><div class="flex items-center gap-space-xs px-space-sm py-1.5 rounded bg-surface-container-low border border-outline-variant"><span class="material-symbols-outlined text-on-surface-variant text-[18px]">database</span><div class="flex flex-col"><span class="font-label-sm text-label-sm text-on-surface leading-none">IndexedDB</span><span class="font-label-sm text-[11px] text-on-surface-variant leading-tight">Stocké localement</span></div></div><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div><nav class="w-full px-gutter-desktop bg-surface-container-low overflow-x-auto flex items-center gap-space-xs py-space-xs" data-active-classes="bg-primary-container text-on-primary font-bold border-primary-container"><a class="flex-shrink-0 min-h-[44px] flex items-center px-space-md py-space-xs rounded text-on-surface-variant font-label-md text-label-md border border-outline-variant hover:bg-surface-container hover:text-on-surface transition-colors" data-path="tournee-du-jour" href="#">1. Tournée du jour</a><a class="flex-shrink-0 min-h-[44px] flex items-center px-space-md py-space-xs rounded text-on-surface-variant font-label-md text-label-md border border-outline-variant hover:bg-surface-container hover:text-on-surface transition-colors" data-path="fiche-elevage" href="#">2. Fiche élevage</a><a class="flex-shrink-0 min-h-[44px] flex items-center px-space-md py-space-xs rounded text-on-surface-variant font-label-md text-label-md border border-outline-variant hover:bg-surface-container hover:text-on-surface transition-colors" data-path="grille-de-regie" href="#">3. Grille de régie</a><a class="flex-shrink-0 min-h-[44px] flex items-center px-space-md py-space-xs rounded text-on-surface-variant font-label-md text-label-md border border-outline-variant hover:bg-surface-container hover:text-on-surface transition-colors" data-path="biosecurite" href="#">4. Biosécurité</a><a class="flex-shrink-0 min-h-[44px] flex items-center px-space-md py-space-xs rounded text-on-surface-variant font-label-md text-label-md border border-outline-variant hover:bg-surface-container hover:text-on-surface transition-colors" data-path="rapport-de-visite" href="#">5. Rapport de visite</a><a class="flex-shrink-0 min-h-[44px] flex items-center px-space-md py-space-xs rounded text-on-surface-variant font-label-md text-label-md border border-outline-variant hover:bg-surface-container hover:text-on-surface transition-colors" data-path="version-imprimable" href="#">6. Version imprimable</a></nav></header><main class="w-full pt-[148px] flex-1 bg-background"><div class="flex flex-col w-full">
+<!-- BANDEAU CONTEXTUEL ÉLEVAGE & ÉTAT LOCAL -->
+<section class="w-full bg-surface-container-high px-gutter-desktop py-space-md shadow-sm">
+<div class="max-w-7xl mx-auto flex flex-col lg:flex-row items-start lg:items-center justify-between gap-space-md">
+<!-- Informations Ferme -->
+<div class="flex flex-col gap-space-xs">
+<div class="flex items-center flex-wrap gap-space-xs">
+<span class="bg-primary text-on-primary font-label-sm text-label-sm uppercase px-2.5 py-1 rounded">Étape 3 / 6</span>
+<span class="text-on-surface-variant font-label-sm text-label-sm">Grille de Régie Opérationnelle</span>
+<span class="w-1.5 h-1.5 rounded-full bg-outline"></span>
+<span class="text-secondary font-label-sm text-label-sm font-bold flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">touch_app</span> Mode Étable / Gants Actif
+          </span>
+</div>
+<div class="flex items-baseline flex-wrap gap-x-space-md gap-y-1">
+<h1 class="font-headline-lg text-headline-lg font-bold text-primary">Ferme des Prés-Clairs</h1>
+<span class="font-body-lg text-body-lg text-on-surface-variant">Producteur : <strong class="text-on-surface font-body-lg-bold">Luc Gagnon</strong></span>
+<span class="font-body-lg text-body-lg text-on-surface-variant">Date : <span class="font-label-sm text-label-sm text-on-surface bg-surface-container px-2 py-0.5 rounded">15 octobre 2024</span></span>
+</div>
+</div>
+<!-- Action Persistence & Workflow Nav -->
+<div class="flex flex-wrap items-center gap-space-sm w-full lg:w-auto">
+<button class="flex-1 sm:flex-none min-h-[52px] px-space-md bg-primary-container text-on-primary rounded flex items-center justify-center gap-space-xs shadow hover:opacity-95 active:scale-95 transition-all" id="top-sync-btn" type="button">
+<span class="material-symbols-outlined text-[24px]">save</span>
+<span class="font-body-lg-bold text-body-lg-bold">Enregistrer sur cet appareil</span>
+</button>
+<a class="min-h-[52px] px-space-md bg-surface-container-lowest text-on-surface rounded flex items-center justify-center gap-space-xs shadow hover:bg-surface-container transition-colors" data-path="fiche-elevage" href="#">
+<span class="material-symbols-outlined text-[20px]">arrow_back</span>
+<span class="font-label-md text-label-md">Retour fiche</span>
+</a>
+<a class="min-h-[52px] px-space-md bg-primary text-on-primary rounded flex items-center justify-center gap-space-xs shadow hover:bg-primary/90 transition-colors" data-path="biosecurite" href="#">
+<span class="font-body-lg-bold text-body-lg-bold">Continuer biosécurité</span>
+<span class="material-symbols-outlined text-[20px]">arrow_forward</span>
+</a>
+</div>
+</div>
+<!-- Bannière Statut IndexedDB Actuelle -->
+<div class="max-w-7xl mx-auto mt-space-sm pt-space-xs flex items-center justify-between flex-wrap gap-space-sm">
+<div class="inline-flex items-center gap-2 px-3 py-1.5 rounded bg-amber-100 text-amber-900 font-label-sm text-label-sm" id="storage-status-pill">
+<span class="inline-block w-2.5 h-2.5 rounded-full bg-amber-600 animate-pulse"></span>
+<span>IndexedDB : Modifications non enregistrées en cache local</span>
+</div>
+<div class="flex items-center gap-3">
+<button class="text-secondary font-label-sm text-label-sm underline hover:text-on-secondary-container" id="toggle-simulated-error" type="button">
+          Simuler incident IndexedDB
+        </button>
+<span class="font-label-sm text-label-sm text-on-surface-variant">ID Visite: #VT-20241015-03</span>
+</div>
+</div>
+</section>
+<!-- ENCART D'ALERTE SIMULABLE D'ÉCHEC D'ENREGISTREMENT -->
+<div class="hidden w-full max-w-7xl mx-auto px-gutter-desktop mt-space-md" id="indexeddb-error-alert">
+<div class="bg-error-container text-on-error-container p-space-md rounded shadow-md flex flex-col md:flex-row items-start md:items-center justify-between gap-space-md">
+<div class="flex items-start gap-space-sm">
+<span class="material-symbols-outlined text-error text-[32px] flex-shrink-0">sync_problem</span>
+<div class="flex flex-col">
+<h2 class="font-body-lg-bold text-body-lg-bold text-error">Échec de l'enregistrement local (IndexedDB saturé ou bloqué)</h2>
+<p class="font-body-md text-body-md">Vos saisies sont conservées intactes à l'écran. Aucune perte de données vétérinaires. Cliquez sur Réessayer ou vérifiez l'espace disponible de la tablette.</p>
+</div>
+</div>
+<div class="flex items-center gap-space-sm w-full md:w-auto">
+<button class="flex-1 md:flex-none min-h-[48px] px-space-md bg-error text-on-error rounded font-body-lg-bold text-body-lg-bold shadow hover:opacity-90" id="retry-save-btn" type="button">
+          Réessayer
+        </button>
+<button class="p-2 text-on-error-container hover:bg-error/10 rounded" id="dismiss-alert-btn" type="button">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+</div>
+</div>
+<!-- COMPTEUR DE RÉGIE & MÉTRIQUES RAPIDES -->
+<div class="max-w-7xl w-full mx-auto px-gutter-desktop pt-space-md">
+<div class="grid grid-cols-2 sm:grid-cols-4 gap-space-sm">
+<div class="bg-surface-container-lowest p-space-sm rounded shadow-sm flex items-center justify-between">
+<div>
+<span class="text-on-surface-variant font-label-sm text-label-sm uppercase">Total interventions</span>
+<p class="font-headline-lg text-headline-lg font-bold text-on-surface">5</p>
+</div>
+<span class="material-symbols-outlined text-primary text-[32px]">checklist</span>
+</div>
+<div class="bg-surface-container-lowest p-space-sm rounded shadow-sm flex items-center justify-between">
+<div>
+<span class="text-on-surface-variant font-label-sm text-label-sm uppercase">Réalisées</span>
+<p class="font-headline-lg text-headline-lg font-bold text-primary" id="counter-done">3</p>
+</div>
+<span class="material-symbols-outlined text-primary-fixed-dim text-[32px]">check_circle</span>
+</div>
+<div class="bg-surface-container-lowest p-space-sm rounded shadow-sm flex items-center justify-between">
+<div>
+<span class="text-on-surface-variant font-label-sm text-label-sm uppercase">En attente</span>
+<p class="font-headline-lg text-headline-lg font-bold text-secondary" id="counter-pending">2</p>
+</div>
+<span class="material-symbols-outlined text-secondary text-[32px]">pending_actions</span>
+</div>
+<div class="bg-surface-container-lowest p-space-sm rounded shadow-sm flex items-center justify-between">
+<div>
+<span class="text-on-surface-variant font-label-sm text-label-sm uppercase">Catégories</span>
+<p class="font-headline-lg text-headline-lg font-bold text-on-surface">5</p>
+</div>
+<span class="material-symbols-outlined text-outline text-[32px]">category</span>
+</div>
+</div>
+</div>
+<!-- CONTENU PRINCIPAL : LES 5 GRANDES CARTES SPACIEUSES DE CATÉGORIE -->
+<main class="max-w-7xl w-full mx-auto px-gutter-desktop py-space-md flex flex-col gap-space-lg pb-40">
+<!-- 1. CATÉGORIE : DIAGNOSTIC DE GESTATION -->
+<section class="bg-surface-container-lowest rounded shadow-md overflow-hidden flex flex-col">
+<!-- En-tête de catégorie -->
+<div class="bg-surface-container p-space-md flex flex-col sm:flex-row sm:items-center justify-between gap-space-xs">
+<div class="flex items-center gap-space-sm">
+<div class="w-12 h-12 rounded bg-primary-container text-on-primary flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-[28px]">female</span>
+</div>
+<div>
+<div class="flex items-center gap-2">
+<h2 class="font-headline-lg text-headline-lg font-bold text-primary">1. Diagnostic de gestation</h2>
+<span class="bg-primary text-on-primary font-label-sm text-label-sm px-2 py-0.5 rounded">2 actions</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant">Palpations transrectales et échographies de suivi après IA</p>
+</div>
+</div>
+<span class="text-on-surface-variant font-label-sm text-label-sm">Délai standard 30-65j</span>
+</div>
+<!-- Liste des actes pour cette catégorie -->
+<div class="p-space-md flex flex-col gap-space-md">
+<!-- Vache #1042 (DG Réalisé) -->
+<article class="bg-surface p-space-md rounded shadow-sm transition-all flex flex-col lg:flex-row gap-space-md justify-between items-start lg:items-center" data-cow-row="1042">
+<div class="flex-1 flex flex-col md:flex-row items-start md:items-center gap-space-md w-full">
+<!-- Gros Identifiant Vache Spécial Gants -->
+<div class="flex flex-col items-center justify-center bg-surface-container-lowest px-4 py-3 rounded min-w-[170px] shadow-sm">
+<span class="font-label-sm text-label-sm text-on-surface-variant tracking-wider uppercase">Identifiant</span>
+<span class="font-cow-tag-display text-cow-tag-display text-primary tracking-normal">#1042</span>
+<span class="font-label-sm text-[11px] text-on-surface-variant">Bague : CA 04-981-1042</span>
+</div>
+<!-- Description de l'acte et champ observation -->
+<div class="flex-1 flex flex-col gap-space-xs w-full">
+<div class="flex items-center gap-2 flex-wrap">
+<span class="bg-primary-fixed text-on-primary-fixed font-label-sm text-label-sm px-2 py-0.5 rounded uppercase">Échographie</span>
+<h3 class="font-headline-md text-headline-md font-bold text-on-surface">DG par palpation / échographie transrectale suite à IA du 28 août</h3>
+</div>
+<label class="font-label-md text-label-md text-on-surface-variant flex items-center gap-1" for="obs-1042">
+<span class="material-symbols-outlined text-[18px]">edit_note</span> Note d'observation médicale :
+              </label>
+<textarea class="w-full min-h-[54px] p-3 rounded bg-surface-container-lowest text-on-surface font-body-md text-body-md shadow-inner focus:outline-none focus:bg-surface-container-lowest" id="obs-1042" rows="2">Pleine 48j, corne droite bien développée, embryon viable.</textarea>
+</div>
+</div>
+<!-- Bouton Tactile Haut Ergonomie 52px (État Réversible) -->
+<div class="w-full lg:w-auto flex flex-col items-stretch lg:items-end justify-center gap-1 flex-shrink-0">
+<button class="btn-toggle-status min-h-[52px] px-6 py-3 rounded font-body-lg-bold text-body-lg-bold flex items-center justify-center gap-space-xs transition-colors shadow bg-primary-container text-on-primary" data-cow="1042" data-state="done" type="button">
+<span class="material-symbols-outlined text-[28px]">check_box</span>
+<span>Réalisée</span>
+</button>
+<span class="status-hint font-label-sm text-label-sm text-on-surface-variant text-center lg:text-right">Toucher pour basculer</span>
+</div>
+</article>
+<!-- Vache #1120 (DG À faire) -->
+<article class="bg-surface p-space-md rounded shadow-sm transition-all flex flex-col lg:flex-row gap-space-md justify-between items-start lg:items-center" data-cow-row="1120">
+<div class="flex-1 flex flex-col md:flex-row items-start md:items-center gap-space-md w-full">
+<div class="flex flex-col items-center justify-center bg-surface-container-lowest px-4 py-3 rounded min-w-[170px] shadow-sm">
+<span class="font-label-sm text-label-sm text-on-surface-variant tracking-wider uppercase">Identifiant</span>
+<span class="font-cow-tag-display text-cow-tag-display text-primary tracking-normal">#1120</span>
+<span class="font-label-sm text-[11px] text-on-surface-variant">Bague : CA 04-981-1120</span>
+</div>
+<div class="flex-1 flex flex-col gap-space-xs w-full">
+<div class="flex items-center gap-2 flex-wrap">
+<span class="bg-surface-container text-on-surface-variant font-label-sm text-label-sm px-2 py-0.5 rounded uppercase">Contrôle 60j</span>
+<h3 class="font-headline-md text-headline-md font-bold text-on-surface">DG confirmation 60 jours</h3>
+</div>
+<label class="font-label-md text-label-md text-on-surface-variant flex items-center gap-1" for="obs-1120">
+<span class="material-symbols-outlined text-[18px]">edit_note</span> Note d'observation médicale :
+              </label>
+<textarea class="w-full min-h-[54px] p-3 rounded bg-surface-container-lowest text-on-surface font-body-md text-body-md shadow-inner focus:outline-none focus:bg-surface-container-lowest" id="obs-1120" rows="2">À vérifier en fin de lot</textarea>
+</div>
+</div>
+<div class="w-full lg:w-auto flex flex-col items-stretch lg:items-end justify-center gap-1 flex-shrink-0">
+<button class="btn-toggle-status min-h-[52px] px-6 py-3 rounded font-body-lg-bold text-body-lg-bold flex items-center justify-center gap-space-xs transition-colors shadow bg-surface-container-lowest text-on-surface hover:bg-surface-container" data-cow="1120" data-state="todo" type="button">
+<span class="material-symbols-outlined text-[28px]">check_box_outline_blank</span>
+<span>À faire</span>
+</button>
+<span class="status-hint font-label-sm text-label-sm text-on-surface-variant text-center lg:text-right">Toucher pour basculer</span>
+</div>
+</article>
+</div>
+</section>
+<!-- 2. CATÉGORIE : CCS ÉLEVÉE (COMPTAGE CELLULES SOMATIQUES) -->
+<section class="bg-surface-container-lowest rounded shadow-md overflow-hidden flex flex-col">
+<div class="bg-surface-container p-space-md flex flex-col sm:flex-row sm:items-center justify-between gap-space-xs">
+<div class="flex items-center gap-space-sm">
+<div class="w-12 h-12 rounded bg-secondary-container text-on-secondary-container flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-[28px]">biotech</span>
+</div>
+<div>
+<div class="flex items-center gap-2 flex-wrap">
+<h2 class="font-headline-lg text-headline-lg font-bold text-secondary">2. CCS élevée</h2>
+<span class="bg-secondary-fixed text-on-secondary-fixed font-label-sm text-label-sm px-2.5 py-0.5 rounded font-bold">Comptage de cellules somatiques</span>
+<span class="bg-secondary text-on-secondary font-label-sm text-label-sm px-2 py-0.5 rounded">1 action</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant">Dépistage de mammites subcliniques et bactériologie du lait de quartier</p>
+</div>
+</div>
+<span class="text-secondary font-label-sm text-label-sm font-bold flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">warning</span> Seuil critique &gt; 400 000
+        </span>
+</div>
+<div class="p-space-md flex flex-col gap-space-md">
+<!-- Vache #1087 (CCS 620 000) -->
+<article class="bg-surface p-space-md rounded shadow-sm transition-all flex flex-col lg:flex-row gap-space-md justify-between items-start lg:items-center" data-cow-row="1087">
+<div class="flex-1 flex flex-col md:flex-row items-start md:items-center gap-space-md w-full">
+<div class="flex flex-col items-center justify-center bg-surface-container-lowest px-4 py-3 rounded min-w-[170px] shadow-sm">
+<span class="font-label-sm text-label-sm text-secondary font-bold tracking-wider uppercase">Alerte CCS</span>
+<span class="font-cow-tag-display text-cow-tag-display text-secondary tracking-normal">#1087</span>
+<span class="font-label-sm text-[11px] text-on-surface-variant">Bague : CA 04-981-1087</span>
+</div>
+<div class="flex-1 flex flex-col gap-space-xs w-full">
+<div class="flex items-center gap-2 flex-wrap">
+<span class="bg-secondary text-on-secondary font-label-sm text-label-sm px-2 py-0.5 rounded uppercase font-bold">620 000 cell/ml</span>
+<h3 class="font-headline-md text-headline-md font-bold text-on-surface">Examen clinique mammaire - CCS 620 000</h3>
+</div>
+<label class="font-label-md text-label-md text-on-surface-variant flex items-center gap-1" for="obs-1087">
+<span class="material-symbols-outlined text-[18px]">medical_services</span> Constat clinique et prélèvement :
+              </label>
+<textarea class="w-full min-h-[54px] p-3 rounded bg-surface-container-lowest text-on-surface font-body-md text-body-md shadow-inner focus:outline-none focus:bg-surface-container-lowest" id="obs-1087" rows="2">Quartier AG chaud et induré, sécrétions séreuses légères. Test CMT positif (+++). Échantillon stérile prélevé pour bactériologie.</textarea>
+</div>
+</div>
+<div class="w-full lg:w-auto flex flex-col items-stretch lg:items-end justify-center gap-1 flex-shrink-0">
+<button class="btn-toggle-status min-h-[52px] px-6 py-3 rounded font-body-lg-bold text-body-lg-bold flex items-center justify-center gap-space-xs transition-colors shadow bg-primary-container text-on-primary" data-cow="1087" data-state="done" type="button">
+<span class="material-symbols-outlined text-[28px]">check_box</span>
+<span>Réalisée</span>
+</button>
+<span class="status-hint font-label-sm text-label-sm text-on-surface-variant text-center lg:text-right">Toucher pour basculer</span>
+</div>
+</article>
+</div>
+</section>
+<!-- 3. CATÉGORIE : TARISSEMENT -->
+<section class="bg-surface-container-lowest rounded shadow-md overflow-hidden flex flex-col">
+<div class="bg-surface-container p-space-md flex flex-col sm:flex-row sm:items-center justify-between gap-space-xs">
+<div class="flex items-center gap-space-sm">
+<div class="w-12 h-12 rounded bg-surface-container-highest text-on-surface flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-[28px]">hourglass_bottom</span>
+</div>
+<div>
+<div class="flex items-center gap-2">
+<h2 class="font-headline-lg text-headline-lg font-bold text-on-surface">3. Tarissement</h2>
+<span class="bg-surface-variant text-on-surface-variant font-label-sm text-label-sm px-2 py-0.5 rounded font-bold">1 action</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant">Protocole d'arrêt de lactation et protection antimicrobienne ciblée</p>
+</div>
+</div>
+<span class="text-on-surface-variant font-label-sm text-label-sm">Objectif 60j repos mammaire</span>
+</div>
+<div class="p-space-md flex flex-col gap-space-md">
+<!-- Vache #1102 (Tarissement réalisé) -->
+<article class="bg-surface p-space-md rounded shadow-sm transition-all flex flex-col lg:flex-row gap-space-md justify-between items-start lg:items-center" data-cow-row="1102">
+<div class="flex-1 flex flex-col md:flex-row items-start md:items-center gap-space-md w-full">
+<div class="flex flex-col items-center justify-center bg-surface-container-lowest px-4 py-3 rounded min-w-[170px] shadow-sm">
+<span class="font-label-sm text-label-sm text-on-surface-variant tracking-wider uppercase">Identifiant</span>
+<span class="font-cow-tag-display text-cow-tag-display text-primary tracking-normal">#1102</span>
+<span class="font-label-sm text-[11px] text-on-surface-variant">Bague : CA 04-981-1102</span>
+</div>
+<div class="flex-1 flex flex-col gap-space-xs w-full">
+<div class="flex items-center gap-2 flex-wrap">
+<span class="bg-surface-container text-on-surface-variant font-label-sm text-label-sm px-2 py-0.5 rounded uppercase">Scellant interne</span>
+<h3 class="font-headline-md text-headline-md font-bold text-on-surface">Tarissement sélectif et obturateur de trayon</h3>
+</div>
+<label class="font-label-md text-label-md text-on-surface-variant flex items-center gap-1" for="obs-1102">
+<span class="material-symbols-outlined text-[18px]">science</span> Traitement appliqué :
+              </label>
+<textarea class="w-full min-h-[54px] p-3 rounded bg-surface-container-lowest text-on-surface font-body-md text-body-md shadow-inner focus:outline-none focus:bg-surface-container-lowest" id="obs-1102" rows="2">Pose obturateur sans antibiotique, trayons désinfectés.</textarea>
+</div>
+</div>
+<div class="w-full lg:w-auto flex flex-col items-stretch lg:items-end justify-center gap-1 flex-shrink-0">
+<button class="btn-toggle-status min-h-[52px] px-6 py-3 rounded font-body-lg-bold text-body-lg-bold flex items-center justify-center gap-space-xs transition-colors shadow bg-primary-container text-on-primary" data-cow="1102" data-state="done" type="button">
+<span class="material-symbols-outlined text-[28px]">check_box</span>
+<span>Réalisée</span>
+</button>
+<span class="status-hint font-label-sm text-label-sm text-on-surface-variant text-center lg:text-right">Toucher pour basculer</span>
+</div>
+</article>
+</div>
+</section>
+<!-- 4. CATÉGORIE : VÊLAGE -->
+<section class="bg-surface-container-lowest rounded shadow-md overflow-hidden flex flex-col">
+<div class="bg-surface-container p-space-md flex flex-col sm:flex-row sm:items-center justify-between gap-space-xs">
+<div class="flex items-center gap-space-sm">
+<div class="w-12 h-12 rounded bg-surface-container-highest text-on-surface flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-[28px]">child_care</span>
+</div>
+<div>
+<div class="flex items-center gap-2">
+<h2 class="font-headline-lg text-headline-lg font-bold text-on-surface">4. Vêlage</h2>
+<span class="bg-surface-variant text-on-surface-variant font-label-sm text-label-sm px-2 py-0.5 rounded font-bold">1 action</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant">Examens post-partum, involution utérine et état général du péripartum</p>
+</div>
+</div>
+<span class="text-on-surface-variant font-label-sm text-label-sm">Post-partum précoce</span>
+</div>
+<div class="p-space-md flex flex-col gap-space-md">
+<!-- Vache #1055 (Vêlage À faire) -->
+<article class="bg-surface p-space-md rounded shadow-sm transition-all flex flex-col lg:flex-row gap-space-md justify-between items-start lg:items-center" data-cow-row="1055">
+<div class="flex-1 flex flex-col md:flex-row items-start md:items-center gap-space-md w-full">
+<div class="flex flex-col items-center justify-center bg-surface-container-lowest px-4 py-3 rounded min-w-[170px] shadow-sm">
+<span class="font-label-sm text-label-sm text-on-surface-variant tracking-wider uppercase">Identifiant</span>
+<span class="font-cow-tag-display text-cow-tag-display text-primary tracking-normal">#1055</span>
+<span class="font-label-sm text-[11px] text-on-surface-variant">Bague : CA 04-981-1055</span>
+</div>
+<div class="flex-1 flex flex-col gap-space-xs w-full">
+<div class="flex items-center gap-2 flex-wrap">
+<span class="bg-surface-container text-on-surface-variant font-label-sm text-label-sm px-2 py-0.5 rounded uppercase">Suivi J+14</span>
+<h3 class="font-headline-md text-headline-md font-bold text-on-surface">Examen post-partum J+14</h3>
+</div>
+<label class="font-label-md text-label-md text-on-surface-variant flex items-center gap-1" for="obs-1055">
+<span class="material-symbols-outlined text-[18px]">visibility</span> Note d'observation :
+              </label>
+<textarea class="w-full min-h-[54px] p-3 rounded bg-surface-container-lowest text-on-surface font-body-md text-body-md shadow-inner focus:outline-none focus:bg-surface-container-lowest" id="obs-1055" placeholder="Saisir l'observation utérine, lochies, note corporelle..." rows="2"></textarea>
+</div>
+</div>
+<div class="w-full lg:w-auto flex flex-col items-stretch lg:items-end justify-center gap-1 flex-shrink-0">
+<button class="btn-toggle-status min-h-[52px] px-6 py-3 rounded font-body-lg-bold text-body-lg-bold flex items-center justify-center gap-space-xs transition-colors shadow bg-surface-container-lowest text-on-surface hover:bg-surface-container" data-cow="1055" data-state="todo" type="button">
+<span class="material-symbols-outlined text-[28px]">check_box_outline_blank</span>
+<span>À faire</span>
+</button>
+<span class="status-hint font-label-sm text-label-sm text-on-surface-variant text-center lg:text-right">Toucher pour basculer</span>
+</div>
+</article>
+</div>
+</section>
+<!-- 5. CATÉGORIE : INSÉMINATION (OBLIGATOIRE, ÉTAT VIDE EXPLICITE) -->
+<section class="bg-surface-container-lowest rounded shadow-md overflow-hidden flex flex-col">
+<div class="bg-surface-container p-space-md flex flex-col sm:flex-row sm:items-center justify-between gap-space-xs">
+<div class="flex items-center gap-space-sm">
+<div class="w-12 h-12 rounded bg-surface-container-highest text-on-surface-variant flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-[28px]">event_repeat</span>
+</div>
+<div>
+<div class="flex items-center gap-2">
+<h2 class="font-headline-lg text-headline-lg font-bold text-on-surface-variant">5. Insémination</h2>
+<span class="bg-surface-container-highest text-on-surface-variant font-label-sm text-label-sm px-2 py-0.5 rounded font-bold">0 action</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant">Protocoles de synchronisation, chaleurs observées et planification semences</p>
+</div>
+</div>
+<span class="text-on-surface-variant font-label-sm text-label-sm">Aucun animal ciblé</span>
+</div>
+<!-- État vide spacieux et contrasté -->
+<div class="p-space-xl flex flex-col items-center justify-center text-center gap-space-sm bg-surface-container-low m-space-md rounded">
+<div class="w-16 h-16 rounded-full bg-surface-container-high flex items-center justify-center text-on-surface-variant">
+<span class="material-symbols-outlined text-[36px]">inbox</span>
+</div>
+<div class="flex flex-col gap-1 max-w-md">
+<h3 class="font-headline-md text-headline-md font-bold text-on-surface">Aucune action prévue dans cette catégorie</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">Toutes les femelles prévues pour l'insémination artificielle sont actuellement à jour pour ce troupeau.</p>
+</div>
+<button class="mt-2 min-h-[48px] px-space-md bg-surface-container-lowest text-on-surface rounded font-label-md text-label-md shadow hover:bg-surface-container flex items-center gap-2" type="button">
+<span class="material-symbols-outlined text-[18px]">add</span> Ajouter une vache au lot d'insémination
+        </button>
+</div>
+</section>
+<!-- ENCART D'AVERTISSEMENT LÉGAL / DEMO -->
+<div class="w-full p-space-md bg-surface-container rounded flex items-center gap-space-md">
+<span class="material-symbols-outlined text-secondary text-[28px] flex-shrink-0">gavel</span>
+<p class="font-label-sm text-label-sm text-on-surface-variant leading-relaxed">
+<strong>Mention de démonstration obligatoire :</strong> Les données, identifiants bovins et protocoles présentés sont fictifs. Cette interface de régie ambulatoire sert uniquement de modèle fonctionnel pour vétérinaires praticiens et ne constitue aucunement une ordonnance légale ni un registre zootechnique officiel.
+      </p>
+</div>
+</main>
+<!-- BARRE D'ACTIONS FIXE EN BAS (ONE-HANDED / GLOVES SAFE, 54PX TOUCH TARGETS) -->
+<aside class="fixed bottom-0 left-0 right-0 z-40 bg-surface-container-lowest shadow-[0_-4px_16px_rgba(0,0,0,0.08)] py-space-sm px-gutter-desktop">
+<div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-space-sm">
+<!-- État dynamique d'enregistrement -->
+<div class="flex items-center gap-space-sm w-full sm:w-auto">
+<div class="w-3.5 h-3.5 rounded-full bg-secondary animate-pulse flex-shrink-0" id="bottom-sync-dot"></div>
+<div class="flex flex-col">
+<span class="font-body-lg-bold text-body-lg-bold text-on-surface leading-tight" id="bottom-sync-text">Modifications non enregistrées</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">IndexedDB local • Visite en cours</span>
+</div>
+</div>
+<!-- Actions Rapides Gants Bas d'Écran -->
+<div class="flex items-center gap-space-sm w-full sm:w-auto justify-end">
+<button class="flex-1 sm:flex-none min-h-[54px] px-space-lg bg-primary-container text-on-primary rounded font-body-lg-bold text-body-lg-bold flex items-center justify-center gap-space-xs shadow hover:opacity-95 active:scale-95 transition-all" id="bottom-save-btn" type="button">
+<span class="material-symbols-outlined text-[24px]">save</span>
+<span>Enregistrer la visite</span>
+</button>
+<a class="flex-1 sm:flex-none min-h-[54px] px-space-lg bg-primary text-on-primary rounded font-body-lg-bold text-body-lg-bold flex items-center justify-center gap-space-xs shadow hover:bg-primary/90 active:scale-95 transition-all" data-path="biosecurite" href="#">
+<span>Continuer vers la biosécurité</span>
+<span class="material-symbols-outlined text-[24px]">arrow_forward</span>
+</a>
+</div>
+</div>
+</aside>
+<!-- SCRIPTS D'INTERACTION TERRAIN (GESTION TACTILE GANTS & SIMULATION INDEXEDDB) -->
+<script>
+    (function() {
+      // Données en mémoire pour interaction vive
+      const state = {
+        hasUnsavedChanges: true,
+        simulatedError: false,
+        actions: {
+          '1042': { done: true, note: 'Pleine 48j, corne droite bien développée, embryon viable.' },
+          '1120': { done: false, note: 'À vérifier en fin de lot' },
+          '1087': { done: true, note: 'Quartier AG chaud et induré, sécrétions séreuses légères. Test CMT positif (+++). Échantillon stérile prélevé pour bactériologie.' },
+          '1102': { done: true, note: 'Pose obturateur sans antibiotique, trayons désinfectés.' },
+          '1055': { done: false, note: '' }
+        }
+      };
+
+      const topSaveBtn = document.getElementById('top-sync-btn');
+      const bottomSaveBtn = document.getElementById('bottom-save-btn');
+      const retrySaveBtn = document.getElementById('retry-save-btn');
+      const dismissAlertBtn = document.getElementById('dismiss-alert-btn');
+      const toggleSimulatedErrorBtn = document.getElementById('toggle-simulated-error');
+      const errorAlert = document.getElementById('indexeddb-error-alert');
+      const storagePill = document.getElementById('storage-status-pill');
+      const bottomSyncText = document.getElementById('bottom-sync-text');
+      const bottomSyncDot = document.getElementById('bottom-sync-dot');
+      const counterDone = document.getElementById('counter-done');
+      const counterPending = document.getElementById('counter-pending');
+
+      // Mise à jour de l'affichage des compteurs
+      function updateCounters() {
+        let doneCount = 0;
+        let todoCount = 0;
+        Object.values(state.actions).forEach(a => {
+          if (a.done) doneCount++; else todoCount++;
+        });
+        if (counterDone) counterDone.textContent = doneCount;
+        if (counterPending) counterPending.textContent = todoCount;
+      }
+
+      // Marquer comme modifié
+      function markDirty() {
+        state.hasUnsavedChanges = true;
+        if (storagePill) {
+          storagePill.className = "inline-flex items-center gap-2 px-3 py-1.5 rounded bg-amber-100 text-amber-900 font-label-sm text-label-sm";
+          storagePill.innerHTML = '<span class="inline-block w-2.5 h-2.5 rounded-full bg-amber-600 animate-pulse"></span><span>IndexedDB : Modifications non enregistrées en cache local</span>';
+        }
+        if (bottomSyncText) bottomSyncText.textContent = "Modifications non enregistrées";
+        if (bottomSyncDot) {
+          bottomSyncDot.className = "w-3.5 h-3.5 rounded-full bg-secondary animate-pulse flex-shrink-0";
+        }
+      }
+
+      // Action d'enregistrement
+      function performSave() {
+        if (state.simulatedError) {
+          if (errorAlert) errorAlert.classList.remove('hidden');
+          if (bottomSyncText) bottomSyncText.textContent = "Échec écriture IndexedDB";
+          if (bottomSyncDot) {
+            bottomSyncDot.className = "w-3.5 h-3.5 rounded-full bg-error flex-shrink-0";
+          }
+          return;
+        }
+
+        // Succès d'enregistrement dans IndexedDB
+        if (errorAlert) errorAlert.classList.add('hidden');
+        state.hasUnsavedChanges = false;
+        
+        if (storagePill) {
+          storagePill.className = "inline-flex items-center gap-2 px-3 py-1.5 rounded bg-surface-container text-primary font-label-sm text-label-sm";
+          storagePill.innerHTML = '<span class="material-symbols-outlined text-[16px] text-primary">check_circle</span><span>IndexedDB : Données persistées avec succès sur l\'appareil</span>';
+        }
+
+        if (bottomSyncText) bottomSyncText.textContent = "Visite enregistrée localement";
+        if (bottomSyncDot) {
+          bottomSyncDot.className = "w-3.5 h-3.5 rounded-full bg-primary flex-shrink-0";
+        }
+
+        // Effet tactile retour
+        [topSaveBtn, bottomSaveBtn].forEach(btn => {
+          if (!btn) return;
+          const orig = btn.innerHTML;
+          btn.innerHTML = '<span class="material-symbols-outlined text-[24px]">verified</span><span>Enregistré !</span>';
+          setTimeout(() => { btn.innerHTML = orig; }, 1800);
+        });
+      }
+
+      // Gestionnaires des boutons statut Réalisée / À faire
+      document.querySelectorAll('.btn-toggle-status').forEach(btn => {
+        btn.addEventListener('click', function() {
+          const cowId = this.getAttribute('data-cow');
+          const isDone = this.getAttribute('data-state') === 'done';
+          const nextState = !isDone;
+          
+          state.actions[cowId].done = nextState;
+          this.setAttribute('data-state', nextState ? 'done' : 'todo');
+
+          const icon = this.querySelector('.material-symbols-outlined');
+          const label = this.querySelector('span:not(.material-symbols-outlined)');
+
+          if (nextState) {
+            this.className = "btn-toggle-status min-h-[52px] px-6 py-3 rounded font-body-lg-bold text-body-lg-bold flex items-center justify-center gap-space-xs transition-colors shadow bg-primary-container text-on-primary";
+            if (icon) icon.textContent = "check_box";
+            if (label) label.textContent = "Réalisée";
+          } else {
+            this.className = "btn-toggle-status min-h-[52px] px-6 py-3 rounded font-body-lg-bold text-body-lg-bold flex items-center justify-center gap-space-xs transition-colors shadow bg-surface-container-lowest text-on-surface hover:bg-surface-container";
+            if (icon) icon.textContent = "check_box_outline_blank";
+            if (label) label.textContent = "À faire";
+          }
+
+          markDirty();
+          updateCounters();
+        });
+      });
+
+      // Écoute de saisie de notes
+      document.querySelectorAll('textarea').forEach(tx => {
+        tx.addEventListener('input', () => {
+          markDirty();
+        });
+      });
+
+      // Boutons d'enregistrement
+      if (topSaveBtn) topSaveBtn.addEventListener('click', performSave);
+      if (bottomSaveBtn) bottomSaveBtn.addEventListener('click', performSave);
+      if (retrySaveBtn) retrySaveBtn.addEventListener('click', performSave);
+
+      if (dismissAlertBtn) {
+        dismissAlertBtn.addEventListener('click', () => {
+          if (errorAlert) errorAlert.classList.add('hidden');
+        });
+      }
+
+      // Simuler l'échec de persistence pour validation d'exigence
+      if (toggleSimulatedErrorBtn) {
+        toggleSimulatedErrorBtn.addEventListener('click', () => {
+          state.simulatedError = !state.simulatedError;
+          if (state.simulatedError) {
+            toggleSimulatedErrorBtn.textContent = "Désactiver simulation d'incident";
+            performSave();
+          } else {
+            toggleSimulatedErrorBtn.textContent = "Simuler incident IndexedDB";
+            if (errorAlert) errorAlert.classList.add('hidden');
+            performSave();
+          }
+        });
+      }
+
+      updateCounters();
+    })();
+  </script>
+</div></main><footer class="w-full bg-surface-container-low border-t border-outline-variant py-space-md mt-auto"><div class="w-full px-gutter-desktop flex flex-col md:flex-row items-center justify-between gap-space-sm"><div class="flex items-center gap-space-sm font-label-sm text-label-sm text-on-surface-variant"><span class="material-symbols-outlined text-[16px] text-primary">verified_user</span><span>TournéeVéto — Application praticien terrain (Mode hors-ligne garanti)</span></div><div class="font-label-sm text-label-sm text-on-surface-variant">© 2025 TournéeVéto • Dre Marie Tremblay</div></div></footer></body></html>
