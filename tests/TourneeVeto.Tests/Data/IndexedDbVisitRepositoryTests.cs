@@ -2,6 +2,7 @@ using System.Text.Json;
 using Bunit;
 using Microsoft.JSInterop;
 using TourneeVeto.Domain;
+using TourneeVeto.Domain.Biosecurity;
 using TourneeVeto.Domain.Visits;
 using TourneeVeto.Ui.Data;
 
@@ -57,6 +58,232 @@ public sealed class IndexedDbVisitRepositoryTests
 
         Assert.Equivalent(Example, await repository.GetAsync(VisitId), strict: true);
         Assert.Equivalent(Example, Assert.Single(await repository.GetAllAsync()), strict: true);
+    }
+
+    [Fact]
+    public async Task Cloture_EtReponsesBiosecurite_SontRelusALIdentiqueApresSauvegarde()
+    {
+        var reponses = new[]
+        {
+            new BiosecurityResponse(
+                Guid.Parse("44444444-4444-4444-4444-444444444444"),
+                Guid.Parse("55555555-5555-5555-5555-555555555555")),
+            new BiosecurityResponse(
+                Guid.Parse("66666666-6666-6666-6666-666666666666"),
+                Guid.Parse("77777777-7777-7777-7777-777777777777"))
+        };
+        var visite = Example with
+        {
+            ClosedOn = new DateOnly(2026, 10, 10),
+            BiosecurityResponses = reponses
+        };
+        using var contexte = new BunitContext();
+        var module = contexte.JSInterop.SetupModule(IndexedDbVisitRepository.ModulePath);
+        module.Setup<string>("save", _ => true).SetResult("""{"value":true,"error":null}""");
+        await using var repository = new IndexedDbVisitRepository(contexte.JSInterop.JSRuntime);
+
+        await repository.SaveAsync(visite);
+
+        var json = Assert.IsType<string>(Assert.Single(module.Invocations["save"]).Arguments[0]);
+        using (var document = JsonDocument.Parse(json))
+        {
+            var root = document.RootElement;
+            Assert.True(root.GetProperty("isClosed").GetBoolean());
+            Assert.Equal("2026-10-10", root.GetProperty("closedOn").GetString());
+            Assert.Equal(2, root.GetProperty("biosecurityResponses").GetArrayLength());
+        }
+
+        module.Setup<string>("get", VisitId).SetResult($$"""{"value":{{json}},"error":null}""");
+        var relue = await repository.GetAsync(VisitId);
+
+        Assert.NotNull(relue);
+        Assert.True(relue.IsClosed);
+        Assert.Equal(visite.ClosedOn, relue.ClosedOn);
+        Assert.Equal(reponses, relue.BiosecurityResponses);
+        Assert.Equivalent(visite, relue, strict: true);
+    }
+
+    [Fact]
+    public async Task AncienDocument_SansChampsDeClotureEstLisibleAvecValeursParDefaut()
+    {
+        const string ancien = """
+            {"id":"11111111-1111-1111-1111-111111111111","farmId":"22222222-2222-2222-2222-222222222222",
+            "date":"2026-10-09","cause":"Visite fictive","notes":"Observation de démonstration","photoId":null}
+            """;
+        using var contexte = new BunitContext();
+        var module = contexte.JSInterop.SetupModule(IndexedDbVisitRepository.ModulePath);
+        module.Setup<string>("get", VisitId).SetResult($$"""{"value":{{ancien}},"error":null}""");
+        module.Setup<string>("getAll").SetResult($$"""{"value":[{{ancien}}],"error":null}""");
+        await using var repository = new IndexedDbVisitRepository(contexte.JSInterop.JSRuntime);
+
+        var visite = await repository.GetAsync(VisitId);
+        var toutes = await repository.GetAllAsync();
+
+        Assert.NotNull(visite);
+        Assert.Equal(Example, visite with { });
+        Assert.False(visite.IsClosed);
+        Assert.Null(visite.ClosedOn);
+        Assert.Empty(visite.BiosecurityResponses);
+        Assert.Empty(visite.Actions);
+        Assert.Empty(Assert.Single(toutes).BiosecurityResponses);
+    }
+
+    [Theory]
+    [InlineData("""true,"closedOn":null""", false)]
+    [InlineData("""false,"closedOn":"2026-10-10" """, true)]
+    public async Task DocumentIncoherent_LEtatClotureDecouleDeLaDateDeCloture(string champs, bool attenduClos)
+    {
+        var document = $$"""
+            {"id":"11111111-1111-1111-1111-111111111111","farmId":"22222222-2222-2222-2222-222222222222",
+            "date":"2026-10-09","cause":"c","notes":"n","photoId":null,"isClosed":{{champs}}}
+            """;
+        using var contexte = new BunitContext();
+        var module = contexte.JSInterop.SetupModule(IndexedDbVisitRepository.ModulePath);
+        module.Setup<string>("get", VisitId).SetResult($$"""{"value":{{document}},"error":null}""");
+        await using var repository = new IndexedDbVisitRepository(contexte.JSInterop.JSRuntime);
+
+        var visite = await repository.GetAsync(VisitId);
+
+        Assert.NotNull(visite);
+        Assert.Equal(attenduClos, visite.IsClosed);
+        Assert.Equal(attenduClos, visite.ClosedOn.HasValue);
+    }
+
+    [Fact]
+    public void Visit_EtatCloture_EstToujoursCoherentAvecLaDate()
+    {
+        Assert.False(Example.IsClosed);
+        Assert.Null(Example.ClosedOn);
+        var close = Example with { ClosedOn = new DateOnly(2026, 10, 10) };
+        Assert.True(close.IsClosed);
+        Assert.False((close with { ClosedOn = null }).IsClosed);
+    }
+
+    [Fact]
+    public void Visit_ListesSontCopieesDefensivement()
+    {
+        var reponse = new BiosecurityResponse(Guid.NewGuid(), Guid.NewGuid());
+        var action = new VisitAction(Guid.NewGuid(), Guid.NewGuid(), default, new DateOnly(2026, 10, 9), false, "n");
+        var reponses = new[] { reponse };
+        var actions = new[] { action };
+        var visite = Example with { BiosecurityResponses = reponses, Actions = actions };
+
+        reponses[0] = new BiosecurityResponse(Guid.NewGuid(), Guid.NewGuid());
+        actions[0] = action with { Notes = "modifié" };
+
+        Assert.Equal(reponse, Assert.Single(visite.BiosecurityResponses));
+        Assert.Equal(action, Assert.Single(visite.Actions));
+        Assert.Throws<NotSupportedException>(() => ((IList<BiosecurityResponse>)visite.BiosecurityResponses)[0] = reponses[0]);
+        Assert.Throws<NotSupportedException>(() => ((IList<VisitAction>)visite.Actions).Add(action));
+        Assert.Empty((Example with { Actions = null!, BiosecurityResponses = null! }).Actions);
+    }
+
+    [Fact]
+    public void Visit_ListesAvecElementNull_SontRefusees()
+    {
+        var reponse = new BiosecurityResponse(Guid.NewGuid(), Guid.NewGuid());
+        var action = new VisitAction(Guid.NewGuid(), Guid.NewGuid(), default, new DateOnly(2026, 10, 9), false, "n");
+
+        var erreurReponses = Assert.Throws<ArgumentException>(() =>
+            Example with { BiosecurityResponses = new BiosecurityResponse[] { reponse, null! } });
+        var erreurActions = Assert.Throws<ArgumentException>(() =>
+            Example with { Actions = new VisitAction[] { null!, action } });
+
+        Assert.Equal(nameof(Visit.BiosecurityResponses), erreurReponses.ParamName);
+        Assert.Equal(nameof(Visit.Actions), erreurActions.ParamName);
+    }
+
+    [Fact]
+    public void Visit_ListesNullesViaWith_DonnentDesListesVides()
+    {
+        var visite = Example with { BiosecurityResponses = null!, Actions = null! };
+
+        Assert.Empty(visite.BiosecurityResponses);
+        Assert.Empty(visite.Actions);
+    }
+
+    [Theory]
+    [InlineData(1, 1, 1)]
+    [InlineData(2026, 10, 8)]
+    public void Visit_DateDeClotureInvalide_EstRefusee(int annee, int mois, int jour)
+    {
+        var erreur = Assert.Throws<ArgumentOutOfRangeException>(() =>
+            Example with { ClosedOn = new DateOnly(annee, mois, jour) });
+
+        Assert.Equal(nameof(Visit.ClosedOn), erreur.ParamName);
+    }
+
+    [Fact]
+    public void Visit_DateDeClotureDefaut_EstRefusee()
+    {
+        Assert.Throws<ArgumentOutOfRangeException>(() => Example with { ClosedOn = default(DateOnly) });
+        Assert.Throws<ArgumentOutOfRangeException>(() => Example with { ClosedOn = DateOnly.MinValue });
+    }
+
+    [Fact]
+    public void Visit_DateDeClotureLeJourDeLaVisite_EstAcceptee()
+    {
+        var visite = Example with { ClosedOn = Example.Date };
+
+        Assert.True(visite.IsClosed);
+        Assert.Equal(Example.Date, visite.ClosedOn);
+    }
+
+    [Theory]
+    [InlineData(""""closedOn":"2026-10-08" """")]
+    [InlineData(""""closedOn":"0001-01-01" """")]
+    public async Task DocumentAvecDateDeClotureInvalide_EstRefuseExplicitement(string champ)
+    {
+        var document = $$"""
+            {"id":"11111111-1111-1111-1111-111111111111","farmId":"22222222-2222-2222-2222-222222222222",
+            "date":"2026-10-09","cause":"c","notes":"n","photoId":null,{{champ}}}
+            """;
+        using var contexte = new BunitContext();
+        var module = contexte.JSInterop.SetupModule(IndexedDbVisitRepository.ModulePath);
+        module.Setup<string>("get", VisitId).SetResult($$"""{"value":{{document}},"error":null}""");
+        await using var repository = new IndexedDbVisitRepository(contexte.JSInterop.JSRuntime);
+
+        await Assert.ThrowsAnyAsync<Exception>(() => repository.GetAsync(VisitId));
+    }
+
+    [Fact]
+    public async Task ListesReluesDepuisJson_SontEnLectureSeule()
+    {
+        var reponse = new BiosecurityResponse(Guid.NewGuid(), Guid.NewGuid());
+        var action = new VisitAction(Guid.NewGuid(), Guid.NewGuid(), default, new DateOnly(2026, 10, 9), false, "n");
+        var visite = Example with { BiosecurityResponses = [reponse], Actions = [action] };
+        var json = JsonSerializer.Serialize(visite, JsonSerializerOptions.Web);
+        using var contexte = new BunitContext();
+        var module = contexte.JSInterop.SetupModule(IndexedDbVisitRepository.ModulePath);
+        module.Setup<string>("get", VisitId).SetResult($$"""{"value":{{json}},"error":null}""");
+        await using var repository = new IndexedDbVisitRepository(contexte.JSInterop.JSRuntime);
+
+        var relue = await repository.GetAsync(VisitId);
+
+        Assert.NotNull(relue);
+        Assert.Equal(reponse, Assert.Single(relue.BiosecurityResponses));
+        Assert.Equal(action, Assert.Single(relue.Actions));
+        Assert.Throws<NotSupportedException>(() => ((IList<BiosecurityResponse>)relue.BiosecurityResponses).Add(reponse));
+        Assert.Throws<NotSupportedException>(() => ((IList<VisitAction>)relue.Actions).Add(action));
+    }
+
+    [Fact]
+    public async Task ReponsesBiosecuriteNulles_DeviennentUneListeVide()
+    {
+        const string document = """
+            {"id":"11111111-1111-1111-1111-111111111111","farmId":"22222222-2222-2222-2222-222222222222",
+            "date":"2026-10-09","cause":"c","notes":"n","photoId":null,
+            "isClosed":false,"closedOn":null,"biosecurityResponses":null}
+            """;
+        using var contexte = new BunitContext();
+        var module = contexte.JSInterop.SetupModule(IndexedDbVisitRepository.ModulePath);
+        module.Setup<string>("get", VisitId).SetResult($$"""{"value":{{document}},"error":null}""");
+        await using var repository = new IndexedDbVisitRepository(contexte.JSInterop.JSRuntime);
+
+        var visite = await repository.GetAsync(VisitId);
+
+        Assert.NotNull(visite);
+        Assert.Empty(visite.BiosecurityResponses);
     }
 
     [Fact]
